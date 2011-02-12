@@ -1,4 +1,6 @@
 YuxGallery::Application.routes.draw do
+  resources :photos
+
   resources :albums
 
   devise_for :users
