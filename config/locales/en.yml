@@ -9,6 +9,12 @@ en:
           attributes:
             date_end:
               should_be_after_date_start: "should be later than start date"
+
+  layouts:
+    application:
+      path:
+        start: "Start"
+
   albums:
     show:
       current_user:
@@ -41,6 +47,7 @@ en:
     index:
       title: "Users"
     show:
+      newest_albums: "Newest albums"
       current_user:
         link:
           zero: "create your first one"

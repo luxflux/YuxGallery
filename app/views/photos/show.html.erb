@@ -19,5 +19,5 @@
   <%= link_to 'Edit', edit_user_album_photo_path(current_user, @photo.album, @photo) if current_user == @photo.user %>
 </div>
 <div class="image">
-  <%= image_tag @photo.photo.normal.url %>
+  <%= link_to(image_tag(@photo.photo.normal.url), @photo.photo.lightbox.url, :rel => :lightbox, :title => @photo.name) %>
 </div>

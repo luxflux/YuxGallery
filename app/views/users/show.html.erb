@@ -7,8 +7,9 @@
 <% end %>
 
 <% if @user.albums.length > 0 %>
+  <h3><%= t(".newest_albums") %></h3>
   <% tabs :type => :harmonica do %>
-    <% @user.albums.each do |album| %>
+    <% @user.albums.all(:limit => 2, :order => :created_at).each do |album| %>
       <% tab album.name, :url => user_album_photos_path(@user,album) %>
     <% end %>
   <% end %>

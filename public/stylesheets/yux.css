@@ -68,3 +68,23 @@ div.photo div.description {
 div.photo div.actions {
   float:right;
 }
+
+div#login {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border: 1px solid #ffa200;
+  background-color: #fffb84;
+  padding: 5px;
+  margin: 0px;
+}
+div#login a {
+  color: #ffa200;
+  margin: 0px;
+  text-decoration: none;
+}
+
+div#content {
+  margin:auto;
+  width:850px;
+}

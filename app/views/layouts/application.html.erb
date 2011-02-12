@@ -22,14 +22,22 @@
     <% end %>
   </div>
   
-  <div id="flash">
-    <span id="flash_notice" class="notice"></span>
-    <span id="flash_alert" class="alert"></span>
-  </div>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <div id="content">
+    <h1>YuxGallery</h1>
+    
+    <div id="path">
+      <%= yux_gallery_path %>
+    </div>
+    
+    <div id="flash">
+      <span id="flash_notice" class="notice"></span>
+      <span id="flash_alert" class="alert"></span>
+    </div>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
-  <%= yield %>
+    <%= yield %>
+  </div>
 
 </body>
 </html>

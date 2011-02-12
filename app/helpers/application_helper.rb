@@ -31,4 +31,29 @@ module ApplicationHelper
     (protect_against_forgery?) ? form_authenticity_token : ''
   end
 
+  def yux_gallery_path
+    dl = " &raquo; ".html_safe
+    
+    path = link_to(t(".path.start"), root_url)
+    
+    if params[:user_id]
+      path += dl + link_to(params[:user_id], user_path(params[:user_id]))
+      if params[:album_id]
+        path += dl + link_to(params[:album_id], user_album_path(params[:user_id], params[:album_id]))
+        if params[:id]
+          path += dl + link_to(Photo.find(params[:id]).name, user_album_photo_path(params[:user_id], params[:album_id], params[:id]))
+        end
+      else
+        if params[:id]
+          path += dl + link_to(params[:id], user_album_path(params[:user_id], params[:id]))
+        end
+      end
+    else
+      if params[:id]
+        path += dl + link_to(params[:id], user_path(params[:id]))
+      end
+    end
+    path
+  end
+
 end
