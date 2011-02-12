@@ -8,7 +8,10 @@ gem 'rails', '3.0.4'
 gem 'pg'
 gem 'right-rails'
 gem 'devise'
-
+gem 'friendly_id', "~> 3.2.1"
+gem 'image_science', :require => false
+gem 'carrierwave'
+gem 'RubyInline'
 
 # Use unicorn as the web server
 gem 'unicorn'

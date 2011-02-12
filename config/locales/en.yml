@@ -2,4 +2,57 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        album:
+          attributes:
+            date_end:
+              should_be_after_date_start: "should be later than start date"
+  albums:
+    show:
+      current_user:
+        add_photo: "Or add some via webinterface"
+        scan_link:
+          zero: "Scan for the first photos"
+          other: "Scan for more photos"
+        this_album_has_photos:
+          zero: "Your album does not have any photos, yet."
+          one: "Your album has one photo."
+          other: "Your album has %{count} photos."
+      other_user:
+        this_album_has_photos:
+          zero: "This album has no photos."
+          one: "This album has one photo."
+          other: "This album has %{count} photos."
+  devise:
+    passwords:
+      new:
+        title: "Forgotten your password?"
+    registrations:
+      new:
+        title: "Sign Up"
+    sessions:
+      new:
+        title: "Sign In"
+  users:
+    edit:
+      title: "Edit Profile"
+    index:
+      title: "Users"
+    show:
+      current_user:
+        link:
+          zero: "create your first one"
+          other: "create another one"
+        there_are_albums:
+          zero: "You don't have an album, %{link}!"
+          one: "You have one album."
+          other: "You have %{count} albums."
+      other_user:
+        there_are_albums:
+          zero: "This user does not have any album, yet."
+          one: "This user has one album."
+          other: "This user has %{count} albums."
+    update:
+      ok: "Profile has been saved"

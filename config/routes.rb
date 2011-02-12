@@ -1,9 +1,19 @@
 YuxGallery::Application.routes.draw do
-  resources :photos
 
-  resources :albums
 
   devise_for :users
+
+  resources :users do
+    resources :albums do
+      resources :photos do
+        collection do
+          get :scan_init
+          post :scan
+          get :scan_status
+        end
+      end
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,4 @@
-<%= form_for(@album) do |f| %>
+<%= form_for([:user,@album]) do |f| %>
   <% if @album.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@album.errors.count, "error") %> prohibited this album from being saved:</h2>
@@ -17,11 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :date_start %><br />
-    <%= f.datetime_select :date_start %>
+    <%= f.calendar_field :date_start %>
   </div>
   <div class="field">
     <%= f.label :date_end %><br />
-    <%= f.datetime_select :date_end %>
+    <%= f.calendar_field :date_end %>
   </div>
   <div class="field">
     <%= f.label :description %><br />

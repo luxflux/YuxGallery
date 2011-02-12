@@ -21,5 +21,21 @@
 </p>
 
 
-<%= link_to 'Edit', edit_album_path(@album) %> |
-<%= link_to 'Back', albums_path %>
+<%= link_to 'Edit', edit_user_album_path(@album.user, @album) if @album.user == current_user %>
+
+<% if @album.user == current_user %>
+  <p>
+    <%= t(".current_user.this_album_has_photos", :count => @album.photos.length) %>
+    <%= link_to t(".current_user.scan_link", :count => @album.photos.length), scan_init_user_album_photos_path(@album.user, @album) %>!
+    <%= link_to t(".current_user.add_photo"), new_user_album_photo_path(@album.user, @album) %>.</p>
+<% else %>
+  <p><%= t(".other_user.this_album_has_photos", :count => @album.photos.length) %></p>
+<% end %>
+
+<% if @album.photos.length > 0 %>
+  <% tabs :type => :carousel do %>
+    <% @album.photos.each do |photo| %>
+      <% tab photo.name, :url => user_album_photo_path(@album.user, @album, photo) %>
+    <% end %>
+  <% end %>
+<% end %>

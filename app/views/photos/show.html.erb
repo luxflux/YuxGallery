@@ -1,25 +1,23 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Album:</b>
-  <%= @photo.album %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @photo.name %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @photo.description %>
-</p>
-
-<p>
-  <b>Date:</b>
-  <%= @photo.date %>
-</p>
-
-
-<%= link_to 'Edit', edit_photo_path(@photo) %> |
-<%= link_to 'Back', photos_path %>
+<div class="photo">
+<div class="description">
+  <p>
+    <b>Name:</b>
+    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name, :check_user => @photo.user) %>
+  </p>
+  
+  <p>
+    <b>Description:</b>
+    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description, :check_user => @photo.user) %>
+  </p>
+  
+  <p>
+    <b>Date:</b>
+    <%= @photo.date %>
+  </p>
+</div>
+<div class="actions">
+  <%= link_to 'Edit', edit_user_album_photo_path(current_user, @photo.album, @photo) if current_user == @photo.user %>
+</div>
+<div class="image">
+  <%= image_tag @photo.photo.normal.url %>
+</div>

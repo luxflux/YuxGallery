@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.xml
   def index
-    @photos = Photo.all
+    @photos = Album.find(params[:album_id]).photos
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,10 +41,11 @@ class PhotosController < ApplicationController
   # POST /photos.xml
   def create
     @photo = Photo.new(params[:photo])
+    @photo.album = current_user.albums.find(params[:album_id])
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to(@photo, :notice => 'Photo was successfully created.') }
+        format.html { redirect_to([current_user, @photo.album, @photo], :notice => 'Photo was successfully created.') }
         format.xml  { render :xml => @photo, :status => :created, :location => @photo }
       else
         format.html { render :action => "new" }
@@ -56,15 +57,21 @@ class PhotosController < ApplicationController
   # PUT /photos/1
   # PUT /photos/1.xml
   def update
-    @photo = Photo.find(params[:id])
+    @photo = current_user.albums.find(params[:album_id]).photos.find(params[:id])
+  
+    if request.xhr?
+      key, value = params[:photo].first
+    end
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to(@photo, :notice => 'Photo was successfully updated.') }
+        format.html { redirect_to([current_user, @photo.album, @photo], :notice => 'Photo was successfully updated.') }
         format.xml  { head :ok }
+        format.js   { render :js => @photo.send(key) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @photo.errors, :status => :unprocessable_entity }
+        format.js   { render :js => @photo.send(key) }
       end
     end
   end

@@ -1,0 +1,17 @@
+<h2><%= t(".title") %></h2>
+
+<table>
+  <tr>
+    <th><%= User.human_attribute_name(:nickname) %></th>
+    <th><%= User.human_attribute_name(:albums) %></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= link_to user.nickname, user %></td>
+    <td><%= link_to user.albums.length, user %></td>
+  </tr>
+<% end %>
+</table>
+

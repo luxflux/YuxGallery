@@ -41,10 +41,11 @@ class AlbumsController < ApplicationController
   # POST /albums.xml
   def create
     @album = Album.new(params[:album])
+    @album.user = current_user
 
     respond_to do |format|
       if @album.save
-        format.html { redirect_to(@album, :notice => 'Album was successfully created.') }
+        format.html { redirect_to([@album.user,@album], :notice => 'Album was successfully created.') }
         format.xml  { render :xml => @album, :status => :created, :location => @album }
       else
         format.html { render :action => "new" }
