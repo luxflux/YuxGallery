@@ -7,6 +7,7 @@ gem 'rails', '3.0.4'
 
 gem 'pg'
 gem 'right-rails'
+gem 'devise'
 
 
 # Use unicorn as the web server
