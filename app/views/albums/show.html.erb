@@ -1,41 +1,39 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Name:</b>
-  <%= @album.name %>
-</p>
-
-<p>
-  <b>Date start:</b>
-  <%= @album.date_start %>
-</p>
-
-<p>
-  <b>Date end:</b>
-  <%= @album.date_end %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @album.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_user_album_path(@album.user, @album) if @album.user == current_user %>
-
-<% if @album.user == current_user %>
-  <p>
-    <%= t(".current_user.this_album_has_photos", :count => @album.photos.length) %>
-    <%= link_to t(".current_user.scan_link", :count => @album.photos.length), scan_init_user_album_photos_path(@album.user, @album) %>!
-    <%= link_to t(".current_user.add_photo"), new_user_album_photo_path(@album.user, @album) %>.</p>
-<% else %>
-  <p><%= t(".other_user.this_album_has_photos", :count => @album.photos.length) %></p>
-<% end %>
-
-<% if @album.photos.length > 0 %>
-  <% tabs :type => :carousel do %>
-    <% @album.photos.each do |photo| %>
-      <% tab photo.name, :url => user_album_photo_path(@album.user, @album, photo) %>
+<div class="album">
+  <div class="description">
+    <p>
+      <b>Name:</b>
+      <%= yux_in_place_edit_text(user_album_path(@album.user, @album), :model => @album, :attribute => :name) %>
+    </p>
+    
+    <p>
+      <b>Date start:</b>
+      <%= @album.date_start %>
+    </p>
+    
+    <p>
+      <b>Date end:</b>
+      <%= @album.date_end %>
+    </p>
+    
+    <p>
+      <b>Description:</b>
+      <%= yux_in_place_edit_text(user_album_path(@album.user, @album), :model => @album, :attribute => :description) %>
+    </p>
+    <% if @album.user == current_user %>
+      <p>
+        <%= t(".current_user.this_album_has_photos", :count => @album.photos.length) %>
+        <%= link_to t(".current_user.scan_link", :count => @album.photos.length), scan_init_user_album_photos_path(@album.user, @album) %>!
+        <%= link_to t(".current_user.add_photo"), new_user_album_photo_path(@album.user, @album) %>.</p>
+    <% else %>
+      <p><%= t(".other_user.this_album_has_photos", :count => @album.photos.length) %></p>
     <% end %>
-  <% end %>
-<% end %>
+  </div>
+  <div class="actions">
+    <%= link_to 'Edit', edit_user_album_path(@album.user, @album) if @album.user == current_user %>
+  </div>
+  <div class="image">
+    <% if @album.photos.length > 0 %>
+      <%= link_to(image_tag(@album.random_photo.photo.normal.url), user_album_photos_path(@album.user, @album)) %>
+    <% end %>
+  </div>
+</div>

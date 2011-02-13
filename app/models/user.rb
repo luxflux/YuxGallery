@@ -14,4 +14,13 @@ class User < ActiveRecord::Base
   has_many :photos, :through => :albums
 
   has_friendly_id :nickname, :use_slug => true
+
+  def random_photo
+    self.photos.shuffle.first
+  end
+
+  def title
+    self.nickname
+  end
+
 end

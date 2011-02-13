@@ -12,7 +12,7 @@ module ApplicationHelper
   def yux_in_place_edit_text(url, *args)
     options = args.extract_options!
     
-    check_user = options[:check_user]
+    check_user = options[:check_user] || options[:model].user
     content = options[:content] || options[:model].send(options[:attribute])
     field_name = "#{options[:model].class.name.tableize.singularize}[#{options[:attribute]}]"
 
@@ -32,28 +32,57 @@ module ApplicationHelper
   end
 
   def yux_gallery_path
-    dl = " &raquo; ".html_safe
-    
-    path = link_to(t(".path.start"), root_url)
-    
-    if params[:user_id]
-      path += dl + link_to(params[:user_id], user_path(params[:user_id]))
-      if params[:album_id]
-        path += dl + link_to(params[:album_id], user_album_path(params[:user_id], params[:album_id]))
-        if params[:id]
-          path += dl + link_to(Photo.find(params[:id]).name, user_album_photo_path(params[:user_id], params[:album_id], params[:id]))
-        end
-      else
-        if params[:id]
-          path += dl + link_to(params[:id], user_album_path(params[:user_id], params[:id]))
-        end
-      end
-    else
-      if params[:id]
-        path += dl + link_to(params[:id], user_path(params[:id]))
-      end
+    content_tag :ul, :class => :gallery_path do
+      p =   content_tag(:li, link_to(t(".path.start"), root_url))
+      p +=  content_tag(:li, link_to(@user.title,  @user))                   if @user
+      p +=  content_tag(:li, link_to(@album.title, [@user, @album]))         if @album
+      p +=  content_tag(:li, link_to(@photo.title  [@user, @album, @photo])) if @photo
+      p
     end
-    path
+  end
+
+  def yux_link_to_with_photo(image_url, destination_url, *args)
+    options = args.extract_options!
+    
+    rel   = options[:rel]
+    title = options[:title]
+    
+    link_to(image_tag(image_url) +  content_tag(:span, title), destination_url, :class => :with_photo, :rel => rel, :title => title)
+  end
+
+  def yux_show_a_photo_collection(collection, *args)
+    options = args.extract_options!
+  
+    prefix = options[:prefix]
+    postfix = options[:postfix]
+
+    content = ""
+    content_tag :ul, :class => :photo_collection do
+      collection.each do |item|
+        url = prefix ? [ prefix, item ] : item
+        url = case
+          when prefix && postfix
+            [ prefix, item, postfix ]
+          when prefix
+            [ prefix, item ]
+          when postfix
+            [ item, postfix ]
+          else
+            item
+        end
+        item_photo = item.respond_to?(:random_photo) ? item.random_photo : item
+        item_photo_url = item_photo.respond_to?(:photo) ? item_photo.photo.thumb.url : yux_default_photo 
+        content += content_tag :li do
+          yux_link_to_with_photo(item_photo_url, url, :title => item.title)
+        end
+      end
+      content += content_tag(:div, nil, :class => :clear)
+      content.html_safe
+    end
+  end
+
+  def yux_default_photo
+    "/images/rails.png"
   end
 
 end

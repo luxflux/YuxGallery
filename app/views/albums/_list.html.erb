@@ -1,0 +1,7 @@
+<ul class="albums">
+  <% @albums.each do |album| %>
+    <% if album.photos.length > 0 %>
+      <li><%= yux_link_to_with_photo album.random_photo.photo.thumb.url, user_album_photos_path(album.user, album) %></li>
+    <% end %>
+  <% end %>
+</ul>

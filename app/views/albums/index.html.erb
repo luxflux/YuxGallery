@@ -1,29 +1,11 @@
-<h1>Listing albums</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Date start</th>
-    <th>Date end</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @albums.each do |album| %>
-  <tr>
-    <td><%= album.name %></td>
-    <td><%= album.date_start %></td>
-    <td><%= album.date_end %></td>
-    <td><%= album.description %></td>
-    <td><%= link_to 'Show', album %></td>
-    <td><%= link_to 'Edit', edit_album_path(album) %></td>
-    <td><%= link_to 'Destroy', album, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% if current_user == @user %>
+  <%= t(".current_user.there_are_albums", :count => @user.albums.length, :link => link_to(t(".current_user.link", :count => @user.albums.length), new_user_album_path(@user))).html_safe %>
+<% else %>
+  <%= t(".other_user.there_are_albums", :count => @user.albums.length) %>
 <% end %>
-</table>
 
-<br />
+<% if @user.albums.length > 0 %>
+ 
+  <%= yux_show_a_photo_collection(@user.albums, :prefix => @user, :postfix => :photos) %>
 
-<%= link_to 'New Album', new_album_path %>
+<% end %>

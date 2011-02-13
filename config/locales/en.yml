@@ -13,9 +13,23 @@ en:
   layouts:
     application:
       path:
-        start: "Start"
+        start: "YuxGallery"
 
   albums:
+    index:
+      current_user:
+        link:
+          zero: "create your first one"
+          other: "create another one"
+        there_are_albums:
+          zero: "You don't have an album, %{link}!"
+          one: "You have one album."
+          other: "You have %{count} albums."
+      other_user:
+        there_are_albums:
+          zero: "This user does not have any album, yet."
+          one: "This user has one album."
+          other: "This user has %{count} albums."
     show:
       current_user:
         add_photo: "Or add some via webinterface"
@@ -47,19 +61,5 @@ en:
     index:
       title: "Users"
     show:
-      newest_albums: "Newest albums"
-      current_user:
-        link:
-          zero: "create your first one"
-          other: "create another one"
-        there_are_albums:
-          zero: "You don't have an album, %{link}!"
-          one: "You have one album."
-          other: "You have %{count} albums."
-      other_user:
-        there_are_albums:
-          zero: "This user does not have any album, yet."
-          one: "This user has one album."
-          other: "This user has %{count} albums."
     update:
       ok: "Profile has been saved"

@@ -2,12 +2,12 @@
 <div class="description">
   <p>
     <b>Name:</b>
-    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name, :check_user => @photo.user) %>
+    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name) %>
   </p>
   
   <p>
     <b>Description:</b>
-    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description, :check_user => @photo.user) %>
+    <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description) %>
   </p>
   
   <p>
@@ -19,5 +19,6 @@
   <%= link_to 'Edit', edit_user_album_photo_path(current_user, @photo.album, @photo) if current_user == @photo.user %>
 </div>
 <div class="image">
-  <%= link_to(image_tag(@photo.photo.normal.url), @photo.photo.lightbox.url, :rel => :lightbox, :title => @photo.name) %>
+  <%= yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox.url, :rel => :lightbox, :title => @photo.name) %>
 </div>
+<div class="clear"></div>
