@@ -34,8 +34,8 @@ module ApplicationHelper
   def yux_gallery_path
     content_tag :ul, :class => :gallery_path do
       p =   content_tag(:li, link_to(t(".path.start"), root_url))
-      p +=  content_tag(:li, link_to(@user.title,  @user))                   if @user
-      p +=  content_tag(:li, link_to(@album.title, [@user, @album]))         if @album
+      p +=  content_tag(:li, link_to(@user.title,  [@user, :albums]))                   if @user
+      p +=  content_tag(:li, link_to(@album.title, [@user, @album, :photos]))           if @album
       p +=  content_tag(:li, link_to(@photo.title  [@user, @album, @photo])) if @photo
       p
     end

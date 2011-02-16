@@ -4,3 +4,7 @@ log/*.log
 tmp/
 config/database.yml
 public/system/uploads
+config/deploy.rb
+config/deploy/
+Capfile
+extras/capistrano_database_yml.rb
