@@ -3,7 +3,7 @@ db/*.sqlite3
 log/*.log
 tmp/
 config/database.yml
-public/system/uploads
+public/system
 config/deploy.rb
 config/deploy/
 Capfile
