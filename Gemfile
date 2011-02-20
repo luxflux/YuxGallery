@@ -9,9 +9,10 @@ gem 'pg'
 gem 'right-rails'
 gem 'devise'
 gem 'friendly_id', "~> 3.2.1"
-gem 'image_science', :require => false
 gem 'carrierwave'
-gem 'RubyInline'
+gem 'mini_magick'
+gem 'delayed_job'
+gem 'exifr'
 
 # Use unicorn as the web server
 #gem 'unicorn'
@@ -35,3 +36,7 @@ gem 'RubyInline'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+group :development do
+  gem 'annotate'
+end

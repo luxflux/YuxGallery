@@ -25,9 +25,8 @@ class ApplicationController < ActionController::Base
       @album = Album.find(params[:album_id]) if params[:album_id]
 
       case
-        when params[:user_id] && params[:album_id] && params[:id]
-          @photo = Photo.find(params[:id])
-  
+        when params[:user_id] && params[:album_id]
+
         when params[:user_id] && params[:id]
           @album = Album.find(params[:id])
 

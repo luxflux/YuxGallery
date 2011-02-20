@@ -1,17 +1,15 @@
 YuxGallery::Application.routes.draw do
 
-
   devise_for :users
 
-  resources :users do
-    resources :albums do
-      resources :photos do
-        collection do
-          get :scan_init
-          post :scan
-          get :scan_status
+  resources :users, :except => [ :show, :new, :create ] do
+    resources :albums, :except => [ :show ] do
+      resources :scans do
+        collection do 
+          get :folders
         end
       end
+      resources :photos
     end
   end
 
@@ -72,3 +70,42 @@ YuxGallery::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
+#== Route Map
+# Generated on 19 Feb 2011 15:51
+#
+#       new_user_session GET    /users/sign_in(.:format)                                   {:controller=>"devise/sessions", :action=>"new"}
+#           user_session POST   /users/sign_in(.:format)                                   {:controller=>"devise/sessions", :action=>"create"}
+#   destroy_user_session GET    /users/sign_out(.:format)                                  {:controller=>"devise/sessions", :action=>"destroy"}
+#          user_password POST   /users/password(.:format)                                  {:controller=>"devise/passwords", :action=>"create"}
+#      new_user_password GET    /users/password/new(.:format)                              {:controller=>"devise/passwords", :action=>"new"}
+#     edit_user_password GET    /users/password/edit(.:format)                             {:controller=>"devise/passwords", :action=>"edit"}
+#                        PUT    /users/password(.:format)                                  {:controller=>"devise/passwords", :action=>"update"}
+#      user_registration POST   /users(.:format)                                           {:controller=>"devise/registrations", :action=>"create"}
+#  new_user_registration GET    /users/sign_up(.:format)                                   {:controller=>"devise/registrations", :action=>"new"}
+# edit_user_registration GET    /users/edit(.:format)                                      {:controller=>"devise/registrations", :action=>"edit"}
+#                        PUT    /users(.:format)                                           {:controller=>"devise/registrations", :action=>"update"}
+#                        DELETE /users(.:format)                                           {:controller=>"devise/registrations", :action=>"destroy"}
+#        user_album_scan POST   /users/:user_id/albums/:album_id/scan(.:format)            {:controller=>"scans", :action=>"create"}
+#    new_user_album_scan GET    /users/:user_id/albums/:album_id/scan/new(.:format)        {:controller=>"scans", :action=>"new"}
+#   edit_user_album_scan GET    /users/:user_id/albums/:album_id/scan/edit(.:format)       {:controller=>"scans", :action=>"edit"}
+#                        GET    /users/:user_id/albums/:album_id/scan(.:format)            {:controller=>"scans", :action=>"show"}
+#                        PUT    /users/:user_id/albums/:album_id/scan(.:format)            {:controller=>"scans", :action=>"update"}
+#                        DELETE /users/:user_id/albums/:album_id/scan(.:format)            {:controller=>"scans", :action=>"destroy"}
+#      user_album_photos GET    /users/:user_id/albums/:album_id/photos(.:format)          {:controller=>"photos", :action=>"index"}
+#                        POST   /users/:user_id/albums/:album_id/photos(.:format)          {:controller=>"photos", :action=>"create"}
+#   new_user_album_photo GET    /users/:user_id/albums/:album_id/photos/new(.:format)      {:controller=>"photos", :action=>"new"}
+#  edit_user_album_photo GET    /users/:user_id/albums/:album_id/photos/:id/edit(.:format) {:controller=>"photos", :action=>"edit"}
+#       user_album_photo GET    /users/:user_id/albums/:album_id/photos/:id(.:format)      {:controller=>"photos", :action=>"show"}
+#                        PUT    /users/:user_id/albums/:album_id/photos/:id(.:format)      {:controller=>"photos", :action=>"update"}
+#                        DELETE /users/:user_id/albums/:album_id/photos/:id(.:format)      {:controller=>"photos", :action=>"destroy"}
+#            user_albums GET    /users/:user_id/albums(.:format)                           {:controller=>"albums", :action=>"index"}
+#                        POST   /users/:user_id/albums(.:format)                           {:controller=>"albums", :action=>"create"}
+#         new_user_album GET    /users/:user_id/albums/new(.:format)                       {:controller=>"albums", :action=>"new"}
+#        edit_user_album GET    /users/:user_id/albums/:id/edit(.:format)                  {:controller=>"albums", :action=>"edit"}
+#             user_album PUT    /users/:user_id/albums/:id(.:format)                       {:controller=>"albums", :action=>"update"}
+#                        DELETE /users/:user_id/albums/:id(.:format)                       {:controller=>"albums", :action=>"destroy"}
+#                  users GET    /users(.:format)                                           {:controller=>"users", :action=>"index"}
+#              edit_user GET    /users/:id/edit(.:format)                                  {:controller=>"users", :action=>"edit"}
+#                   user PUT    /users/:id(.:format)                                       {:controller=>"users", :action=>"update"}
+#                        DELETE /users/:id(.:format)                                       {:controller=>"users", :action=>"destroy"}
+#                   root        /(.:format)                                                {:controller=>"users", :action=>"index"}

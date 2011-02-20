@@ -3,7 +3,7 @@
 <head>
   <title>YuxGallery</title>
   <%= stylesheet_link_tag :all %>
-  <%= rightjs_scripts :tabs, :lightbox, :calendar, :"in-edit" %>
+  <%= rightjs_scripts :tabs, :lightbox, :calendar, :"in-edit", :autocompleter, :uploader %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tag %>
 </head>
@@ -13,14 +13,16 @@
   <% end %>
 
 
-  <div id="login">
+  <ul id="actions">
     <% if user_signed_in? %>
-      <%= link_to(t("users.edit.title"), edit_user_path(current_user), :rel => :lightbox) %>
+      <li><%= link_to_lightbox(t("users.edit.title"), edit_user_path(current_user)) %></li>
+      <li><%= link_to_lightbox(t("albums.new.title"), new_user_album_path(current_user)) %></li>
     <% else %>
-      <%= link_to(t("devise.sessions.new.title"), new_user_session_path, :rel => :lightbox) %>
-      <%= link_to(t("devise.registrations.new.title"), new_user_registration_path, :rel => :lightbox) %>
+      <li><%= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path) %></li>
+      <li><%= link_to_lightbox(t("devise.registrations.new.title"), new_user_registration_path) %></li>
     <% end %>
-  </div>
+    <%= yield(:actions) %>
+  </ul>
   
   <div id="content">
     
@@ -32,11 +34,16 @@
       <span id="flash_notice" class="notice"></span>
       <span id="flash_alert" class="alert"></span>
     </div>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
 
-    <%= yield %>
+    <div id="yield">
+      <%= yield %>
+    </div>
   </div>
+
+  <%= javascript_tag do %>
+    $('flash_notice').hide();
+    $('flash_alert').hide();
+  <% end %>
 
 </body>
 </html>

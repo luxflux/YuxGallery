@@ -75,7 +75,7 @@ div.photo div.actions {
   float:right;
 }
 
-div#login {
+ul#actions {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -83,11 +83,19 @@ div#login {
   background-color: #fffb84;
   padding: 5px;
   margin: 0px;
+  list-style-type: none;
 }
-div#login a {
+ul#actions li {
+  text-align: right;
+}
+ul#actions a {
   color: #ffa200;
   margin: 0px;
   text-decoration: none;
+}
+ul#actions ul {
+  margin-top: 10px;
+  list-style-type: none;
 }
 
 div#content {
@@ -135,6 +143,7 @@ div.clear {
 
 div#path {
   margin-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 ul.gallery_path li {
@@ -147,4 +156,23 @@ ul.gallery_path li:before {
 }
 ul.gallery_path li:first-child:before {
   content: ""
+}
+
+div#flash span {
+  padding: 7px 10px 7px 10px;
+  margin: 4px;
+}
+div#flash span.notice {
+  background-color: #93ff93;
+  color: green;
+  border: 1px solid green;
+}
+div#flash span.alert {
+  background-color: #ff9393;
+  color: red;
+  border: 1px solid red;
+}
+
+div#yield {
+  margin: 10px 0px 10px 0px;
 }

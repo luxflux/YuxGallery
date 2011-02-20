@@ -1,4 +1,7 @@
 class PhotosController < ApplicationController
+
+  before_filter :init_photo
+
   # GET /photos
   # GET /photos.xml
   def index
@@ -87,4 +90,10 @@ class PhotosController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+    def init_photo
+      @photo = Photo.find(params[:id]) if params[:id]
+    end
+
 end

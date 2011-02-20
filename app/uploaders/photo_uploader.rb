@@ -3,7 +3,7 @@
 class PhotoUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or ImageScience support:
-  include CarrierWave::ImageScience
+  include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -41,5 +41,29 @@ class PhotoUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+  
+  def get_exif_data(name = :all)
+    path = current_path
+    case File.basename(path).downcase
+      when /\.jpe?g\Z/
+        exif_info = EXIFR::JPEG.new(path)
+      when /\.tiff?\Z/
+        exif_info = EXIFR::TIFF.new(path)
+    end
 
+    if exif_info && exif_info.exif
+      exif = exif_info.exif.to_hash
+      if name == :all
+        exif
+      else
+        exif[name]
+      end 
+    else
+      if name == :all
+        {}  
+      else
+        nil 
+      end 
+    end
+  end
 end

@@ -20,3 +20,5 @@ function raf_update_flash(kind,content) {
   });
 }
 
+Lightbox.Options.hideOnEsc = false;
+Lightbox.Options.hideOnOutClick = false;

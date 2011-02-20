@@ -31,12 +31,21 @@ module ApplicationHelper
     (protect_against_forgery?) ? form_authenticity_token : ''
   end
 
+  def yux_gallery_path_get_title(model)
+    if model.title
+      model.title
+    else
+      t("#{model.class.name.tableize}.new.title")
+    end
+  end
+
   def yux_gallery_path
     content_tag :ul, :class => :gallery_path do
-      p =   content_tag(:li, link_to(t(".path.start"), root_url))
-      p +=  content_tag(:li, link_to(@user.title,  [@user, :albums]))                   if @user
-      p +=  content_tag(:li, link_to(@album.title, [@user, @album, :photos]))           if @album
-      p +=  content_tag(:li, link_to(@photo.title  [@user, @album, @photo])) if @photo
+      p =  content_tag(:li, link_to(t(".path.start"), root_url))
+      p += content_tag(:li, link_to(yux_gallery_path_get_title(@user),  [@user, :albums]))         if @user
+      p += content_tag(:li, link_to(yux_gallery_path_get_title(@album), [@user, @album, :photos])) if @album
+      p += content_tag(:li, link_to(yux_gallery_path_get_title(@photo), [@user, @album, @photo]))  if @photo
+      p += content_tag(:li, link_to(yux_gallery_path_get_title(@scan),  [@user, @album, @scan]))   if @scan
       p
     end
   end
@@ -79,6 +88,10 @@ module ApplicationHelper
       content += content_tag(:div, nil, :class => :clear)
       content.html_safe
     end
+  end
+
+  def link_to_lightbox(name, href)
+    link_to(name, href, :rel => :lightbox, :title => name)
   end
 
   def yux_default_photo

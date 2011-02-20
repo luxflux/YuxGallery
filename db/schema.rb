@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110212192020) do
+ActiveRecord::Schema.define(:version => 20110220115323) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -22,6 +22,21 @@ ActiveRecord::Schema.define(:version => 20110212192020) do
     t.integer  "user_id"
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "photos", :force => true do |t|
     t.integer  "album_id"
     t.string   "name"
@@ -30,6 +45,19 @@ ActiveRecord::Schema.define(:version => 20110212192020) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "photo"
+    t.datetime "shot_at"
+  end
+
+  create_table "scans", :force => true do |t|
+    t.integer  "album_id"
+    t.string   "directory"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "counter"
+    t.integer  "item_count"
+    t.integer  "job_id"
+    t.integer  "runtime"
   end
 
   create_table "slugs", :force => true do |t|

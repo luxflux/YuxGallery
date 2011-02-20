@@ -1,7 +1,7 @@
 <% if current_user == @user %>
   <%= t(".current_user.there_are_albums", :count => @user.albums.length, :link => link_to(t(".current_user.link", :count => @user.albums.length), new_user_album_path(@user))).html_safe %>
 <% else %>
-  <%= t(".other_user.there_are_albums", :count => @user.albums.length) %>
+  <%= t(".other_user.there_are_albums", :count => @user.albums.length, :user => @user.title) %>
 <% end %>
 
 <% if @user.albums.length > 0 %>

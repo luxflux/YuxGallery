@@ -1,6 +1,22 @@
+# == Schema Information
+# Schema version: 20110219144519
+#
+# Table name: albums
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  date_start  :datetime
+#  date_end    :datetime
+#  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  user_id     :integer
+#
+
 class Album < ActiveRecord::Base
   belongs_to :user
   has_many :photos
+  has_many :scans
 
   has_friendly_id :name, :use_slug => true
 
@@ -22,3 +38,4 @@ class Album < ActiveRecord::Base
   end
 
 end
+

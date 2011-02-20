@@ -10,16 +10,16 @@ class AlbumsController < ApplicationController
     end
   end
 
-  # GET /albums/1
-  # GET /albums/1.xml
-  def show
-    @album = Album.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @album }
-    end
-  end
+#  # GET /albums/1
+#  # GET /albums/1.xml
+#  def show
+#    @album = Album.find(params[:id])
+#
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.xml  { render :xml => @album }
+#    end
+#  end
 
   # GET /albums/new
   # GET /albums/new.xml
@@ -45,10 +45,10 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.save
-        format.html { redirect_to([@album.user,@album], :notice => 'Album was successfully created.') }
+        format.any(:html,:js) { redirect_to([@album.user,@album, :photos], :notice => 'Album was successfully created.') }
         format.xml  { render :xml => @album, :status => :created, :location => @album }
       else
-        format.html { render :action => "new" }
+        format.any(:html, :js) { render :action => "new" }
         format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
       end
     end

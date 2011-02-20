@@ -27,24 +27,12 @@ en:
           other: "You have %{count} albums."
       other_user:
         there_are_albums:
-          zero: "This user does not have any album, yet."
-          one: "This user has one album."
-          other: "This user has %{count} albums."
+          zero: "%{user} does not have any album, yet."
+          one: "%{user} has one album."
+          other: "%{user} has %{count} albums."
     show:
-      current_user:
-        add_photo: "Or add some via webinterface"
-        scan_link:
-          zero: "Scan for the first photos"
-          other: "Scan for more photos"
-        this_album_has_photos:
-          zero: "Your album does not have any photos, yet."
-          one: "Your album has one photo."
-          other: "Your album has %{count} photos."
-      other_user:
-        this_album_has_photos:
-          zero: "This album has no photos."
-          one: "This album has one photo."
-          other: "This album has %{count} photos."
+    new:
+      title: "Create a new album"
   devise:
     passwords:
       new:
@@ -60,6 +48,26 @@ en:
       title: "Edit Profile"
     index:
       title: "Users"
+      text1:
+        one: "We have one registered user. To watch his photos, choose him from below."
+        other: "We have %{count} registered users. To watch some photos, please choose one from below."
     show:
     update:
       ok: "Profile has been saved"
+      disallowed: "Its just allowed to edit you own profile!"
+  photos:
+    index:
+      current_user:
+        add_photo: "Add a single photo"
+        scan_link:
+          zero: "Scan for the first photos"
+          one: "Scan for the first photos"
+          other: "Scan for more photos"
+      this_album_has_photos:
+        zero: "This album does not have any photos, yet."
+        one: "This album has just one photo."
+        other: "This album has %{count} photos."
+  scans:
+    new:
+      title: "New Scan"
+
