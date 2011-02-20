@@ -13,8 +13,9 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     
     @items.each do |entry|
       photo = scan.album.photos.new(:photo => File.open(entry))
-      photo.set_from_exif(entry)
+      photo.set_from_exif(true)
       photo.save!
+      File.delete(entry) if File.writable?(entry)
       add_to_progress
     end
   end

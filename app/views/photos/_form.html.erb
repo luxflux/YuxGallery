@@ -1,15 +1,5 @@
 <%= form_for([:user,:album,@photo], :html => {:multipart => true}) do |f| %>
-  <% if @photo.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@photo.errors.count, "error") %> prohibited this photo from being saved:</h2>
-
-      <ul>
-      <% @photo.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_error_messages(@photo) %>
 
   <div class="field">
     <%= f.label :name %><br />
@@ -20,8 +10,8 @@
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.calendar_field :date %>
+    <%= f.label :show_at %><br />
+    <%= f.calendar_field :shot_at %>
   </div>
   <div class="field">
     <%= f.label :photo %><br />

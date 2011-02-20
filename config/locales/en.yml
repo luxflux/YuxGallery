@@ -71,3 +71,8 @@ en:
     new:
       title: "New Scan"
 
+  errors:
+    prohibited_from_saved:
+      one: "One error prohibited this %{model} from being saved:"
+      other: "%{count} errors prohibited this %{model} from being saved:"
+

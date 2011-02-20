@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :nickname
   validates_presence_of   :nickname
 
-  has_many :albums
+  has_many :albums, :dependent => :destroy
   has_many :photos, :through => :albums
 
   has_friendly_id :nickname, :use_slug => true

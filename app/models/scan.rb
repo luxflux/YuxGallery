@@ -12,6 +12,7 @@
 #  counter    :integer
 #  item_count :integer
 #  job_id     :integer
+#  runtime    :integer
 #
 
 class Scan < ActiveRecord::Base
@@ -19,12 +20,17 @@ class Scan < ActiveRecord::Base
   belongs_to :album
   belongs_to :job, :class_name => "Delayed::Backend::ActiveRecord::Job", :foreign_key => :job_id
 
+  validates_presence_of :directory
+
   validates_each :directory do |record,attr,value|
     record.errors.add attr, "../ is not allowed in the path" if value =~ /\.\.\//
+    record.errors.add attr, "does not exist" unless File.exists?(value)
+    record.errors.add attr, "is not a directory" unless File.directory?(value)
   end
 
   before_create :set_state_on_create
-  before_create :make_directory_a_directory
+  before_create :ensure_directory_is_a_directory
+  after_save :run!
 
   def title
     self.id
@@ -38,7 +44,7 @@ class Scan < ActiveRecord::Base
     self.state = :not_run
   end
 
-  def make_directory_a_directory
+  def ensure_directory_is_a_directory
     self.directory = File.dirname(self.directory) unless File.directory?(self.directory)
   end
 

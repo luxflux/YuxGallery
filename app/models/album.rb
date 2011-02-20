@@ -15,8 +15,8 @@
 
 class Album < ActiveRecord::Base
   belongs_to :user
-  has_many :photos
-  has_many :scans
+  has_many :photos, :dependent => :destroy
+  has_many :scans, :dependent => :destroy
 
   has_friendly_id :name, :use_slug => true
 

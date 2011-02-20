@@ -15,9 +15,6 @@
     <%= @photo.date %>
   </p>
 </div>
-<div class="actions">
-  <%= link_to 'Edit', edit_user_album_photo_path(current_user, @photo.album, @photo) if current_user == @photo.user %>
-</div>
 <div class="image">
   <%= yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox.url, :rel => :lightbox, :title => @photo.name) %>
 </div>

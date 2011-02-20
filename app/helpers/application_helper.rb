@@ -94,6 +94,34 @@ module ApplicationHelper
     link_to(name, href, :rel => :lightbox, :title => name)
   end
 
+  def show_a_lightbox(title, content)
+    "Lightbox.show('#{escape_javascript(content)}').setTitle('#{title}');".html_safe
+  end
+
+  def display_error_messages(model)
+    error_explanation = content_tag :div, :id => "error_explanation" do
+      content = ""
+      if model.errors.any?
+        content += content_tag(:h2, t("errors.prohibited_from_saved", :count => model.errors.count, :model => model.class.name))
+        content += content_tag(:ul) do
+          list = ""
+          model.errors.full_messages.each do |msg|
+            list += content_tag(:li, msg)
+          end
+          list.html_safe
+        end
+      end
+      content.html_safe
+    end
+  end
+
+  def update_lightbox(title = nil)
+    yield
+    content = "Lightbox.current.dialog.resize();"
+    content += "Lightbox.current.dialog.setTitle('#{title}')" if title
+    content
+  end
+
   def yux_default_photo
     "/images/rails.png"
   end

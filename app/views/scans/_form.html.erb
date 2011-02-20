@@ -1,15 +1,5 @@
 <%= form_for([:user, :album, @scan], :remote => true) do |f| %>
-  <% if @scan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@scan.errors.count, "error") %> prohibited this scan from being saved:</h2>
-
-      <ul>
-      <% @scan.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_error_messages(@scan) %>
   
   <p>
     <%= f.label :directory %>

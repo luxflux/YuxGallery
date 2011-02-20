@@ -55,17 +55,22 @@ class ScansController < ApplicationController
   # POST /scans
   # POST /scans.xml
   def create
-    dir = File.join(current_user.sftp_folder, params[:scan][:directory])
-    @scan = @album.scans.new(:directory => dir) if @album.user == current_user
+    if @album.user == current_user
+      @scan = @album.scans.new
+      @scan.directory = File.join(current_user.sftp_folder, params[:scan][:directory])
+    end
 
     respond_to do |format|
-      if @scan.save && @scan.run!
+      if @scan.save
         format.html { redirect_to([ @user, @album, @scan ], :notice => 'Scan was successfully created.') }
         format.xml  { render :xml => @scan, :status => :created, :location => @scan }
         format.js   { render :js => "Lightbox.load('#{user_album_scan_path(@user, @album, @scan)}');" }
       else
+        @scan.directory = @scan.directory.gsub(%r{#{Regexp.escape(current_user.sftp_folder)}}, '')
         format.html { render :action => "new" }
         format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
+        format.js do
+        end
       end
     end
   end
