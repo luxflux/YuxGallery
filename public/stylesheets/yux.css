@@ -82,6 +82,8 @@ ul#actions {
   top: 0px;
   right: 0px;
   border: 1px solid #ffa200;
+  border-top: 0px;
+  border-right: 0px;
   background-color: #fffb84;
   padding: 5px;
   margin: 0px;
