@@ -22,15 +22,17 @@ class Scan < ActiveRecord::Base
 
   validates_presence_of :directory
 
-  validates_each :directory do |record,attr,value|
-    record.errors.add attr, "../ is not allowed in the path" if value =~ /\.\.\//
-    record.errors.add attr, "does not exist" unless File.exists?(self.fullpath)
-    record.errors.add attr, "is not a directory" unless File.directory?(self.fullpath)
+  validate :validate_directory
+
+  def validate_directory
+    self.errors.add :directory, "../ is not allowed in the path" if self.directory =~ /\.\.\//
+    self.errors.add :directory, "does not exist" unless File.exists?(self.fullpath)
+    self.errors.add :directory, "is not a directory" unless File.directory?(self.fullpath)
   end
 
   before_create :set_state_on_create
   before_create :ensure_directory_is_a_directory
-  after_save :run!
+  after_create :run!
 
   def title
     self.id

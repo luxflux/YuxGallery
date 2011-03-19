@@ -20,6 +20,7 @@ en:
       current_user:
         link:
           zero: "create your first one"
+          one: "create another one"
           other: "create another one"
         there_are_albums:
           zero: "You don't have an album, %{link}!"

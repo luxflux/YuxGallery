@@ -13,9 +13,9 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     
     @items.each do |entry|
       photo = scan.album.photos.new(:photo => File.open(entry))
-      photo.set_from_exif(true)
+      photo.set_from_exif!
       photo.save!
-      File.delete(entry) if File.writable?(entry)
+#      File.delete(entry) if File.writable?(entry)
       add_to_progress
     end
   end
@@ -62,10 +62,12 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     Dir.entries(dir).each do |entry|
       next if [ "..", "." ].include?(entry)
 
-      if File.directory?(entry)
-        scan_dir(entry)
+      path = File.join(dir, entry)
+
+      if File.directory?(path)
+        scan_dir(path)
       else
-        @items << File.join(dir, entry)
+        @items << path
       end
     end
   end

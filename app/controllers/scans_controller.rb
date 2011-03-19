@@ -56,8 +56,8 @@ class ScansController < ApplicationController
   # POST /scans.xml
   def create
     if @album.user == current_user
-      @scan = @album.scans.new
-      @scan.directory = File.join(current_user.sftp_folder, params[:scan][:directory])
+      @scan = @album.scans.new(params[:scan])
+#      @scan.directory = File.join(current_user.sftp_folder, params[:scan][:directory])
     end
 
     respond_to do |format|

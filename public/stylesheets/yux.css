@@ -70,6 +70,7 @@ div.field, div.actions {
 div.photo div.description {
   float:left;
   width: 300px;
+  text-align: left;
 }
 
 div.photo div.actions {
@@ -106,6 +107,7 @@ div#content {
   padding: 15px 15px 15px 15px;
   border: 1px solid #fff;
   -moz-box-shadow: 0px 2px 15px #333;
+  -webkit-box-shadow: 0px 2px 15px #333;
   background-color: #fff;
 }
 
@@ -122,6 +124,7 @@ li a.with_photo {
   background: #eee;
   border: 1px solid #fff;
   -moz-box-shadow: 0px 2px 15px #333;
+  -webkit-box-shadow: 0px 2px 15px #333;
   position: relative;
   text-decoration: none;
   width: 125px;

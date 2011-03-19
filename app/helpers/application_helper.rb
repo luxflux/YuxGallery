@@ -1,8 +1,19 @@
 module ApplicationHelper
 
-  def yux_in_place_edit_js_call(element, url, field_name)
-    element = "'#{element}'" unless element == :this
-    "$(#{element}).inEdit({url: '#{url}'#{if field_name then ",name: '#{field_name}'" end }})"
+  def yux_in_place_edit_js_call(element, url, field_name, update_elements = nil)
+    element = "'#{element}'"
+    "$(#{element}).inEdit({url: '#{url}'#{if field_name then ",name: '#{field_name}'" end }}).on('update', function(ele) {
+      #{update_elements_js(element, update_elements)}
+    });"
+  end
+
+  # could be overwritten in the specific controller helpers!
+  def update_elements_js(src_field, update_elements)
+    r = []
+    update_elements.each do |ele|
+      r << "$('#{ele}').html($(#{src_field}).html());"
+    end
+    r.join
   end
 
   def yux_in_place_edit_generate_id
@@ -15,13 +26,15 @@ module ApplicationHelper
     check_user = options[:check_user] || options[:model].user
     content = options[:content] || options[:model].send(options[:attribute])
     field_name = "#{options[:model].class.name.tableize.singularize}[#{options[:attribute]}]"
+    update_elements = options[:update_elements] || []
 
     if check_user.nil? || check_user == current_user
       id = yux_in_place_edit_generate_id
-      span = content_tag :span, :id => id, :onclick => yux_in_place_edit_js_call(:this, url, field_name) do
+      js_call = yux_in_place_edit_js_call(id, url, field_name, update_elements)
+      span = content_tag :span, :id => id, :onclick => js_call do
         content.html_safe
       end
-      span + link_to_function(image_tag("icons/page_edit.png"), yux_in_place_edit_js_call(id, url, field_name))
+      span + link_to_function(image_tag("icons/page_edit.png"), js_call)
     else
       content
     end
@@ -43,7 +56,7 @@ module ApplicationHelper
     content_tag :ul, :class => :gallery_path do
       p =  content_tag(:li, link_to(t(".path.start"), root_url))
       p += content_tag(:li, link_to(yux_gallery_path_get_title(@user),  [@user, :albums]))         if @user
-      p += content_tag(:li, link_to(yux_gallery_path_get_title(@album), [@user, @album, :photos])) if @album
+      p += content_tag(:li, link_to(yux_gallery_path_get_title(@album), [@user, @album, :photos])) if @album && !@album.new_record?
       p += content_tag(:li, link_to(yux_gallery_path_get_title(@photo), [@user, @album, @photo]))  if @photo
       p += content_tag(:li, link_to(yux_gallery_path_get_title(@scan),  [@user, @album, @scan]))   if @scan
       p
@@ -55,8 +68,9 @@ module ApplicationHelper
     
     rel   = options[:rel]
     title = options[:title]
+    id    = options[:id]
     
-    link_to(image_tag(image_url) +  content_tag(:span, title), destination_url, :class => :with_photo, :rel => rel, :title => title)
+    link_to(image_tag(image_url) + content_tag(:span, title, :id => title), destination_url, :class => :with_photo, :rel => rel, :title => title, :id => id)
   end
 
   def yux_show_a_photo_collection(collection, *args)
@@ -99,7 +113,7 @@ module ApplicationHelper
   end
 
   def display_error_messages(model)
-    error_explanation = content_tag :div, :id => "error_explanation" do
+    content_tag :div, :id => "error_explanation" do
       content = ""
       if model.errors.any?
         content += content_tag(:h2, t("errors.prohibited_from_saved", :count => model.errors.count, :model => model.class.name))

@@ -73,7 +73,8 @@ class User < ActiveRecord::Base
 
   def glob_sftp_folders(glob)
     glob = glob.gsub(/\.\.\//,'')
-    Dir.glob(File.join(self.sftp_folder, "#{glob}**"), File::FNM_CASEFOLD | File::FNM_PATHNAME).map do |entry|
+    glob_path = File.join(self.sftp_folder, "#{glob}**")
+    Dir.glob(glob_path, File::FNM_CASEFOLD | File::FNM_PATHNAME).map do |entry|
       entry.gsub(Regexp.escape(self.sftp_folder), '')
     end
   end

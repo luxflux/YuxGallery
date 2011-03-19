@@ -42,5 +42,9 @@ class Photo < ActiveRecord::Base
     self.description = "Created with #{self.exif_data(:model)}, edited with #{self.exif_data(:software)}" if self.description.nil? || self.description.empty? || force
   end
 
+  def set_from_exif!
+    set_from_exif true
+  end
+
 end
 
