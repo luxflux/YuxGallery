@@ -5,8 +5,8 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     set_progress 0
 
     @items = []
-    if File.exists?(scan.directory)
-      scan_dir(scan.directory)
+    if File.exists?(scan.fullpath)
+      scan_dir(scan.fullpath)
     end
     
     set_total_items(@items.length)

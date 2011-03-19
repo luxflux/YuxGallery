@@ -73,13 +73,13 @@ class User < ActiveRecord::Base
 
   def glob_sftp_folders(glob)
     glob = glob.gsub(/\.\.\//,'')
-    Dir.glob(File.join(self.sftp_folder, "#{glob}*"), File::FNM_CASEFOLD | File::FNM_PATHNAME).map do |entry|
+    Dir.glob(File.join(self.sftp_folder, "#{glob}**"), File::FNM_CASEFOLD | File::FNM_PATHNAME).map do |entry|
       entry.gsub(Regexp.escape(self.sftp_folder), '')
     end
   end
 
   def self.sftp_base_folder
-    folder = File.join(Rails.root, "public", "system", "sftp")
+    folder = YuxGallery::Application.config.sftp_upload_path
     Dir.mkdir(folder) unless File.exists?(folder)
     folder
   end

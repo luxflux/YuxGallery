@@ -24,8 +24,8 @@ class Scan < ActiveRecord::Base
 
   validates_each :directory do |record,attr,value|
     record.errors.add attr, "../ is not allowed in the path" if value =~ /\.\.\//
-    record.errors.add attr, "does not exist" unless File.exists?(value)
-    record.errors.add attr, "is not a directory" unless File.directory?(value)
+    record.errors.add attr, "does not exist" unless File.exists?(self.fullpath)
+    record.errors.add attr, "is not a directory" unless File.directory?(self.fullpath)
   end
 
   before_create :set_state_on_create
@@ -45,7 +45,12 @@ class Scan < ActiveRecord::Base
   end
 
   def ensure_directory_is_a_directory
-    self.directory = File.dirname(self.directory) unless File.directory?(self.directory)
+    self.directory = File.dirname(self.fullpath) unless File.directory?(self.fullpath)
+  end
+
+  def fullpath
+    File.join(self.album.user.sftp_folder, self.directory)
+    #File.join(YuxGallery::Application.config.sftp_upload_path, self.directory)
   end
 
   def run!
