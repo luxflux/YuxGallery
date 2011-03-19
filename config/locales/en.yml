@@ -50,7 +50,7 @@ en:
     index:
       title: "Users"
       text1:
-        one: "We have one registered user. To watch his photos, choose him from below."
+        one: "We have one registered user. To see his photos, choose him from below."
         other: "We have %{count} registered users. To watch some photos, please choose one from below."
     show:
     update:
