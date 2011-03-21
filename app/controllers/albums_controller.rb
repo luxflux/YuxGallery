@@ -48,8 +48,9 @@ class AlbumsController < ApplicationController
         format.any(:html,:js) { redirect_to([@album.user,@album, :photos], :notice => 'Album was successfully created.') }
         format.xml  { render :xml => @album, :status => :created, :location => @album }
       else
-        format.any(:html, :js) { render :action => "new" }
+        format.html { render :action => "new" }
         format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
+        format.js   { render :js => update_lightboxes_with_errors_for(@album) }
       end
     end
   end

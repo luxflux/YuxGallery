@@ -136,6 +136,15 @@ module ApplicationHelper
     content
   end
 
+  def update_lightboxes_with_errors_for(model)
+    update_page do |page|
+      update_lightbox do
+        "$('error_explanation').replace(#{escape_javascript(display_error_messages(model))});
+        $('error_explanation').show();"
+      end
+    end
+  end
+
   def yux_default_photo
     "/images/rails.png"
   end
