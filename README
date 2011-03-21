@@ -4,7 +4,7 @@
   sftp-paths
 
 ----open----
-- make error_explanation nice
+- make error_explanation nice (working on albums/create)
 - ensure that actions are save from editing by other users
 - search-path optimizing, make the file entries in the list
   not selectable
