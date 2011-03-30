@@ -66,3 +66,11 @@ function set_lightbox_image_which_fits(image_prefix) {
 
 }
 
+function load_form_response_in_lightbox(form_id) {
+  $(form_id).on('ajax:complete', function(new_element, old_element) {
+    Lightbox.current.dialog.show(new_element.text);
+    $('error_explanation').show('slide', {duration:0, onFinish: function() {
+      Lightbox.current.dialog.resize(null,"fade");
+    }});
+  });
+}
