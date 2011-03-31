@@ -55,16 +55,16 @@ class User < ActiveRecord::Base
   end
 
   def nickname=(value)
-    @oldnickname = self[:nickname]
+    @oldnickname = self[:nickname] unless new_record?
     self[:nickname] = value
   end
 
   def sftp_folder(old = false)
-    File.join(User.sftp_base_folder, (old ? @oldnickname : self.nickname))
+    File.join(User.sftp_base_folder, (@oldnickname ? @oldnickname : self.nickname))
   end
 
   def create_sftp_folder
-    Dir.mkdir(self.sftp_folder)
+    Dir.mkdir(self.sftp_folder) unless File.exists?(self.sftp_folder)
   end
 
   def move_sftp_folder

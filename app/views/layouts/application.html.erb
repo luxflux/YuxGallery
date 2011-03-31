@@ -17,6 +17,7 @@
     <% if user_signed_in? %>
       <li><%= link_to_lightbox(t("users.edit.title"), edit_user_path(current_user)) %></li>
       <li><%= link_to_lightbox(t("albums.new.title"), new_user_album_path(current_user)) %></li>
+      <li><%= link_to(t("devise.sessions.destroy"), destroy_user_session_path) %></li>
     <% else %>
       <li><%= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path) %></li>
       <li><%= link_to_lightbox(t("devise.registrations.new.title"), new_user_registration_path) %></li>
@@ -43,6 +44,14 @@
   <%= javascript_tag do %>
     $('flash_notice').hide();
     $('flash_alert').hide();
+
+    if("<%= flash[:notice] -%>" != "") {
+      raf_update_flash('notice', '<%= flash[:notice] -%>');
+    }
+    if("<%= flash[:alert] -%>" != "") {
+      raf_update_flash('alert', '<%= flash[:alert] -%>');
+    }
+
   <% end %>
 
 </body>

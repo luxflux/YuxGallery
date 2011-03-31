@@ -4,7 +4,8 @@ en:
       not_found: "not found"
       already_confirmed: "was already confirmed"
       not_locked: "was not locked"
-
+  
+  
   devise:
     failure:
       unauthenticated: 'You need to sign in or sign up before continuing.'
@@ -17,9 +18,14 @@ en:
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'
+      destroy: "Logout"
+      new:
+        title: "Sign In"
     passwords:
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'Your password was changed successfully. You are now signed in.'
+      new:
+        title: "Forgotten your password?"
     confirmations:
       send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
       confirmed: 'Your account was successfully confirmed. You are now signed in.'
@@ -27,6 +33,8 @@ en:
       signed_up: 'You have signed up successfully. If enabled, a confirmation was sent to your e-mail.'
       updated: 'You updated your account successfully.'
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
+      new:
+        title: "Sign Up"
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'

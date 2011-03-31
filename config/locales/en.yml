@@ -34,16 +34,6 @@ en:
     show:
     new:
       title: "Create a new album"
-  devise:
-    passwords:
-      new:
-        title: "Forgotten your password?"
-    registrations:
-      new:
-        title: "Sign Up"
-    sessions:
-      new:
-        title: "Sign In"
   users:
     edit:
       title: "Edit Profile"
