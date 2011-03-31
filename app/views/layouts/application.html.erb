@@ -20,7 +20,7 @@
       <li><%= link_to(t("devise.sessions.destroy"), destroy_user_session_path) %></li>
     <% else %>
       <li><%= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path) %></li>
-      <li><%= link_to_lightbox(t("devise.registrations.new.title"), new_user_registration_path) %></li>
+      <li><%= link_to(t("devise.registrations.new.title"), new_user_registration_path) %></li>
     <% end %>
     <%= yield(:actions) %>
   </ul>
