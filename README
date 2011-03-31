@@ -1,10 +1,12 @@
+----open----
+- make login error message nice
+- make error_explanation nice
+- ensure that actions are save from editing by other users
+- search-path optimizing, make the file entries in the list
+  not selectable
+
 ----done----
 - remove the fullpath from Scan
 - create app-config with an initializer to set the prefix for the
   sftp-paths
 
-----open----
-- make error_explanation nice (working on albums/create)
-- ensure that actions are save from editing by other users
-- search-path optimizing, make the file entries in the list
-  not selectable

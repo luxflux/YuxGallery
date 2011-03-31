@@ -31,21 +31,35 @@ en:
           zero: "%{user} does not have any album, yet."
           one: "%{user} has one album."
           other: "%{user} has %{count} albums."
-    show:
     new:
       title: "Create a new album"
+    form:
+      new:
+        title: :"albums.new.title"
+      edit:
+        title: :"albums.edit.title"
+      tooltip:
+        date_start: "Date when the first photo of the album has been taken, if left empty will be filled in when photos are added"
+        date_end: "Date when the last photo of the album has been taken, if left empty will be filled in when photos are added"
   users:
     edit:
       title: "Edit Profile"
+    form:
+      new:
+        title: :"users.new.title"
+      edit:
+        title: :"users.edit.title"
     index:
       title: "Users"
       text1:
         one: "We have one registered user. To see his photos, choose him from below."
         other: "We have %{count} registered users. To watch some photos, please choose one from below."
-    show:
     update:
       ok: "Profile has been saved"
       disallowed: "Its just allowed to edit you own profile!"
+    sessions:
+      new:
+        title: "Sign In"
   photos:
     index:
       current_user:

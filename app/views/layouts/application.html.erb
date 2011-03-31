@@ -3,7 +3,7 @@
 <head>
   <title>YuxGallery</title>
   <%= stylesheet_link_tag :all %>
-  <%= rightjs_scripts :tabs, :lightbox, :calendar, :"in-edit", :autocompleter, :uploader %>
+  <%= rightjs_scripts :tabs, :lightbox, :calendar, :"in-edit", :autocompleter, :uploader, :tooltips, :json %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tag %>
 </head>
@@ -16,7 +16,7 @@
   <ul id="actions">
     <% if user_signed_in? %>
       <li><%= link_to_lightbox(t("users.edit.title"), edit_user_path(current_user)) %></li>
-      <li><%= link_to_lightbox(t("albums.new.title"), new_user_album_path(current_user)) %></li>
+      <li><%= link_to(t("albums.new.title"), new_user_album_path(current_user)) %></li>
       <li><%= link_to(t("devise.sessions.destroy"), destroy_user_session_path) %></li>
     <% else %>
       <li><%= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path) %></li>

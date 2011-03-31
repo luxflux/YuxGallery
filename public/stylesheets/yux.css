@@ -19,6 +19,14 @@ pre {
   font-size: 11px;
 }
 
+input, textarea, select {
+  background-color: #d2b7ff;
+  border: 1px solid #6000ff;
+}
+textarea {
+  height: 150px;
+}
+
 a { color: #555; }
 a:visited { color: #555; }
 
@@ -34,28 +42,35 @@ div.field, div.actions {
   color: green;
 }
 
-.field_with_errors {
+div.field_with_errors {
+  display: inline;
+}
+
+.field_with_errors input {
   padding: 2px;
-  background-color: red;
-  display: table;
+  background-color: #ffcdcd;
+  border: 1px solid red;
 }
 
 #error_explanation {
   display: none;
   width: 450px;
-  border: 2px solid red;
-  padding: 7px;
+  border: 1px solid red;
+  padding: 24px;
   padding-bottom: 0;
   margin-bottom: 20px;
-  background-color: #f0f0f0;
+  background-color: #ffcdcd;
+  box-shadow: 0px 2px 15px #333;
+  -moz-box-shadow: 0px 2px 15px #333;
+  -webkit-box-shadow: 0px 2px 15px #333;
 }
 
 #error_explanation h2 {
   text-align: left;
   font-weight: bold;
-  padding: 5px 5px 5px 15px;
+  padding: 5px 5px 5px 5px;
   font-size: 12px;
-  margin: -7px;
+  margin: -24px;
   margin-bottom: 0px;
   background-color: #c00;
   color: #fff;
@@ -126,6 +141,7 @@ li a.with_photo {
   padding: 10px 10px 15px 10px;
   background: #eee;
   border: 1px solid #fff;
+  box-shadow: 0px 2px 15px #333;
   -moz-box-shadow: 0px 2px 15px #333;
   -webkit-box-shadow: 0px 2px 15px #333;
   position: relative;
@@ -175,11 +191,30 @@ div#flash span.notice {
   border: 1px solid green;
 }
 div#flash span.alert {
-  background-color: #ff9393;
+  background-color: #ffcdcd;
   color: red;
   border: 1px solid red;
 }
 
 div#yield {
   margin: 10px 0px 10px 0px;
+}
+
+fieldset {
+  margin-top: 0.5em;
+  padding-top: 1.5em;
+  border: 1px solid #6000ff;
+}
+
+fieldset legend {
+  font-size: 2.5em;
+}
+
+div.right {
+  float: right;
+  width: 50%;
+}
+div.left {
+  float: left;
+  width: 50%;
 }

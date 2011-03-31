@@ -1,21 +1,27 @@
 
-function raf_update_flash(kind,content) {
-  
+function show_for_a_while(element, duration) {
+
   function hide_after_a_while(element) {
     element.fade("out")
   }
+  
+  element.fade("in",
+    {
+      onFinish: function() {
+        hide_after_a_while.delay(duration, element);
+      }
+    }
+  );
 
+}
+
+function raf_update_flash(kind,content) {
+  
   element = $("flash_" + kind);
   element.fade("out", {
     onFinish: function() {
       element.text(content);
-      element.fade("in",
-        {
-          onFinish: function() {
-            hide_after_a_while.delay(4000, element);
-          }
-        }
-      )
+      show_for_a_while(element, 4000);
     }
   });
 }

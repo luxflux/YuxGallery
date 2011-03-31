@@ -113,8 +113,8 @@ module ApplicationHelper
   end
 
   def display_error_messages(model)
-    content_tag :div, :id => "error_explanation" do
-      content = ""
+    content = ""
+    expl = content_tag :div, :id => "error_explanation" do
       if model.errors.any?
         content += content_tag(:h2, t("errors.prohibited_from_saved", :count => model.errors.count, :model => model.class.name))
         content += content_tag(:ul) do
@@ -127,6 +127,8 @@ module ApplicationHelper
       end
       content.html_safe
     end
+    expl += javascript_tag { "$('error_explanation').show();" } unless content.empty?
+    expl
   end
 
   def update_lightbox(title = nil)
@@ -147,6 +149,16 @@ module ApplicationHelper
 
   def yux_default_photo
     "/images/rails.png"
+  end
+
+  def label_with_tooltip(f, name, tooltip = false)
+    tooltip = t(".tooltip.#{name}") unless tooltip
+    f.label(name, :title => tooltip, :"data-tooltip" => true) + icon_tag(:help, :title => tooltip, :"data-tooltip" => true)
+  end
+
+  def icon_tag(icon, *args)
+    options = args.extract_options!
+    image_tag("icons/#{icon}.png", options)
   end
 
 end

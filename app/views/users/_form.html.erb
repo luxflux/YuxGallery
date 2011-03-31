@@ -1,21 +1,17 @@
 <%= form_for(@user, :remote => true) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+  <%= field_set_tag(t(".#{@user.new_record? ? "new" : "edit"}.title")) do %>
+    <%= display_error_messages(@user) %>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+    <p>
+      <%= f.label :nickname %><br />
+      <%= f.text_field :nickname %>
+    </p>
+    <p>
+      <%= f.label :email %><br />
+      <%= f.text_field :email %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
   <% end %>
-
-  <div class="field">
-    <%= f.label :nickname %><br />
-    <%= f.text_field :nickname %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
