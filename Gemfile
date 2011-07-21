@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.9'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -13,6 +13,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'delayed_job'
 gem 'exifr'
+gem 'cancan'
 
 # Use unicorn as the web server
 #gem 'unicorn'
@@ -39,4 +40,11 @@ gem 'exifr'
 
 group :development do
   gem 'annotate'
+end
+group :test do
+  gem 'sqlite3'
+end
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'watchr'
 end
