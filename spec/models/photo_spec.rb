@@ -6,6 +6,9 @@ describe Photo do
   end
 
   it "can be saved successfully" do
+    PhotoUploader.any_instance.stubs(:get_exif_data).returns({
+      :date_time_original => Time.now
+    })
     FactoryGirl.create(:photo).should be_persisted
   end
 end
