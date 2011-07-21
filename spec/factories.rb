@@ -1,18 +1,24 @@
 FactoryGirl.define do
   factory :album do
-    name 'testalbum'
-  end
-
-  factory :album_with_photos do
-    name "Album with photos"
-    photo
+    name 'Test Album'
   end
 
   factory :photo do
     name "Photo"
+    after_build do |photo|
+      photo.photo.stubs(:get_exif_data).returns({
+        :date_time_original => Time.now, 
+        :model => "Testcam", 
+        :software => "MySoftware 1.2" 
+      })
+      photo.photo.stubs(:path).returns(File.join("/","test.png"))
+    end
   end
-#  sequence :photos do |n|
-#    ""
-#  end
+
+  factory :user do
+    email "test@example.org"
+    password "test123"
+    nickname "Testuser"
+  end
 
 end
