@@ -6,6 +6,6 @@ describe Album do
   end
 
   it "can be saved successfully" do
-    Album.create.should be_persisted
+    Album.create!.should be_persisted
   end
 end
