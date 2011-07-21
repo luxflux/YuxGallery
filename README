@@ -1,4 +1,5 @@
 ----open----
+- WRITE TESTS
 - make login error message nice
 - make error_explanation nice
 - ensure that actions are save from editing by other users
