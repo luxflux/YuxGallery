@@ -28,12 +28,21 @@ describe Photo do
     FactoryGirl.create(:photo).exif_data[:software].should == "MySoftware 1.2"
   end
 
-  it "can set its attributes from the exif data" do
+  it "can overwrite its attributes from the exif data" do
     p = FactoryGirl.create(:photo, :name => "Photo1", :shot_at => 1.year.ago, :description => "Testing")
     p.set_from_exif!
     p.name.should == "test.png"
-    p.shot_at.should == Time.now
+    p.shot_at.should == Time.parse("01/01/2011")
     p.description.should == "Created with Testcam, edited with MySoftware 1.2"
+  end
+
+  it "can fill up missing attributes from the exif data" do
+    p = FactoryGirl.create(:photo, :name => "Photo1", :shot_at => Time.parse("02/02/2002")) # we dont set description
+    p.set_from_exif
+    p.name.should == "Photo1"
+    p.shot_at.should == Time.parse("02/02/2002")
+    p.description.should == "Created with Testcam, edited with MySoftware 1.2"
+
   end
 
 end
