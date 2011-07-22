@@ -51,7 +51,7 @@ class Scan < ActiveRecord::Base
   end
 
   def fullpath
-    File.join(self.album.user.sftp_folder, self.directory)
+    File.join(self.album.user.sftp_folder, self.directory.to_s)
     #File.join(YuxGallery::Application.config.sftp_upload_path, self.directory)
   end
 
