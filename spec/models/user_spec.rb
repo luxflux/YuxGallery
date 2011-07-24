@@ -22,5 +22,13 @@ describe User do
       @user.destroy
       File.directory?(@user.sftp_folder).should be_false
     end
+
+    it "renames the sftp folder when a user gets renamed" do
+      sftp_folder = @user.sftp_folder
+      @user.nickname = "OtherUser"
+      @user.save
+      @user.sftp_folder.should_not == sftp_folder
+      File.directory?(@user.sftp_folder).should be_true
+    end
   end
 end 

@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def sftp_folder(old = false)
-    File.join(User.sftp_base_folder, (@oldnickname ? @oldnickname : self.nickname))
+    File.join(User.sftp_base_folder, (old && @oldnickname ? @oldnickname : self.nickname))
   end
 
   def create_sftp_folder
