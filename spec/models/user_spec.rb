@@ -1,0 +1,26 @@
+require 'spec_helper'
+
+describe User do
+  it "can be instantiated" do
+    FactoryGirl.build(:user).should be_an_instance_of(User)
+  end
+
+  context "which has been saved" do
+    before do
+      @user = FactoryGirl.create(:user) 
+    end
+
+    it "can be saved successfully" do
+      @user.should be_persisted
+    end
+
+    it "creates an folder after beeing saved" do
+      File.directory?(@user.sftp_folder).should be_true
+    end
+
+    it "removes the sftp folder after beeing destroyed" do
+      @user.destroy
+      File.directory?(@user.sftp_folder).should be_false
+    end
+  end
+end 
