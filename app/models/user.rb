@@ -45,6 +45,7 @@ class User < ActiveRecord::Base
 
   after_create :create_sftp_folder
   after_save :move_sftp_folder, :if => :nickname_changed?
+  after_destroy :remove_sftp_folder
 
   def random_photo
     self.photos.shuffle.first
@@ -65,6 +66,10 @@ class User < ActiveRecord::Base
 
   def create_sftp_folder
     Dir.mkdir(self.sftp_folder) unless File.exists?(self.sftp_folder)
+  end
+
+  def remove_sftp_folder
+    FileUtils.rm_rf(self.sftp_folder)
   end
 
   def move_sftp_folder
