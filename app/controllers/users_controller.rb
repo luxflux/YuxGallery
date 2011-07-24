@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       case
         when @user != current_user
           format.html { redirect_to(root_url, :alert => t(".disallowed")) }
-          format.xml  { render :status => 401 }
+          format.xml  { head :method_not_allowed }
           format.js   { render :js => "raf_update_flash('alert', '#{t(".disallowed")}'); Lightbox.hide()" }
         when @user.update_attributes(params[:user])
           format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
@@ -72,6 +72,7 @@ class UsersController < ApplicationController
         else
           format.html { render :action => "edit" }
           format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+          format.js   { render :action => "edit" }
       end
     end
   end
