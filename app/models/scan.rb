@@ -26,8 +26,8 @@ class Scan < ActiveRecord::Base
 
   def validate_directory
     self.errors.add :directory, "../ is not allowed in the path" if self.directory =~ /\.\.\//
-    self.errors.add :directory, "does not exist" unless File.exists?(self.fullpath)
-    self.errors.add :directory, "is not a directory" unless File.directory?(self.fullpath)
+    self.errors.add :directory, "#{self.fullpath} does not exist" unless File.exists?(self.fullpath)
+    self.errors.add :directory, "#{self.fullpath} is not a directory" unless File.directory?(self.fullpath)
   end
 
   before_create :set_state_on_create
@@ -51,8 +51,7 @@ class Scan < ActiveRecord::Base
   end
 
   def fullpath
-    File.join(self.album.user.sftp_folder, self.directory.to_s)
-    #File.join(YuxGallery::Application.config.sftp_upload_path, self.directory)
+    File.join(self.album.user.sftp_folder, self.directory)
   end
 
   def run!
@@ -83,7 +82,7 @@ class Scan < ActiveRecord::Base
         start = self.job.run_at
       when :success
         state = "done"
-        speed = self.runtime / self.counter
+        speed = self.runtime.zero? ? 0 : self.runtime / self.counter
         start = self.updated_at.to_i - self.runtime
       when :error, :fail
         state = "error"
