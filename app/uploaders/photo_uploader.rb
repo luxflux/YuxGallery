@@ -19,7 +19,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [125, 125]
   end
 
-  version :carousel do 
+  version :carousel do
     process :resize_to_fit => [100, 67]
   end
 
@@ -45,7 +45,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-  
+
   def get_exif_data(name = :all)
     path = current_path
     case File.basename(path).downcase
@@ -61,13 +61,13 @@ class PhotoUploader < CarrierWave::Uploader::Base
         exif
       else
         exif[name]
-      end 
+      end
     else
       if name == :all
-        {}  
+        {}
       else
-        nil 
-      end 
+        nil
+      end
     end
   end
 end

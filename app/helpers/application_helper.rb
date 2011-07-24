@@ -22,7 +22,7 @@ module ApplicationHelper
 
   def yux_in_place_edit_text(url, *args)
     options = args.extract_options!
-    
+
     check_user = options[:check_user] || options[:model].user
     content = options[:content] || options[:model].send(options[:attribute])
     field_name = "#{options[:model].class.name.tableize.singularize}[#{options[:attribute]}]"
@@ -65,17 +65,17 @@ module ApplicationHelper
 
   def yux_link_to_with_photo(image_url, destination_url, *args)
     options = args.extract_options!
-    
+
     rel   = options[:rel]
     title = options[:title]
     id    = options[:id]
-    
+
     link_to(image_tag(image_url) + content_tag(:span, title, :id => title), destination_url, :class => :with_photo, :rel => rel, :title => title, :id => id)
   end
 
   def yux_show_a_photo_collection(collection, *args)
     options = args.extract_options!
-  
+
     prefix = options[:prefix]
     postfix = options[:postfix]
 
@@ -94,7 +94,7 @@ module ApplicationHelper
             item
         end
         item_photo = item.respond_to?(:random_photo) ? item.random_photo : item
-        item_photo_url = item_photo.respond_to?(:photo) ? item_photo.photo.thumb.url : yux_default_photo 
+        item_photo_url = item_photo.respond_to?(:photo) ? item_photo.photo.thumb.url : yux_default_photo
         content += content_tag :li do
           yux_link_to_with_photo(item_photo_url, url, :title => item.title)
         end

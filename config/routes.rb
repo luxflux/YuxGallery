@@ -5,7 +5,7 @@ YuxGallery::Application.routes.draw do
   resources :users, :except => [ :show, :new, :create ] do
     resources :albums, :except => [ :show ] do
       resources :scans do
-        collection do 
+        collection do
           get :folders
         end
       end

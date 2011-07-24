@@ -70,7 +70,7 @@ class Scan < ActiveRecord::Base
     # speed => now - start time / received
     # started_at => scan start
     # uuid => scan id
-    
+
     case self.state
       when :queued, :not_run
         state = "starting"

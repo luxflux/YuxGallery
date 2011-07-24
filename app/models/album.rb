@@ -24,7 +24,7 @@ class Album < ActiveRecord::Base
   validates_presence_of   :name
   validate                :date_start_before_date_end
 
-  
+
   def random_photo
     self.photos.shuffle.first
   end
@@ -32,7 +32,7 @@ class Album < ActiveRecord::Base
   def date_start_before_date_end
     errors.add(:date_end, :should_be_after_date_start) if self.date_end && self.date_start && self.date_end < self.date_start
   end
-  
+
   def title
     self.name
   end

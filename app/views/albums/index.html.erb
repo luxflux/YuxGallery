@@ -5,7 +5,7 @@
 <% end %>
 
 <% if @user.albums.length > 0 %>
- 
+
   <%= yux_show_a_photo_collection(@user.albums, :prefix => @user, :postfix => :photos) %>
 
 <% end %>

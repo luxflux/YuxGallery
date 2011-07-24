@@ -62,7 +62,7 @@ class AlbumsController < ApplicationController
 
     if request.xhr?
       key, value = params[:album].first
-    end 
+    end
 
     respond_to do |format|
       if @album.update_attributes(params[:album])

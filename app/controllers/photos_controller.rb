@@ -61,7 +61,7 @@ class PhotosController < ApplicationController
   # PUT /photos/1.xml
   def update
     @photo = current_user.albums.find(params[:album_id]).photos.find(params[:id])
-  
+
     if request.xhr?
       key, value = params[:photo].first
     end

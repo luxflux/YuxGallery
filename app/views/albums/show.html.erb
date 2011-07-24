@@ -4,17 +4,17 @@
       <b>Name:</b>
       <%= yux_in_place_edit_text(user_album_path(@album.user, @album), :model => @album, :attribute => :name) %>
     </p>
-    
+
     <p>
       <b>Date start:</b>
       <%= @album.date_start %>
     </p>
-    
+
     <p>
       <b>Date end:</b>
       <%= @album.date_end %>
     </p>
-    
+
     <p>
       <b>Description:</b>
       <%= yux_in_place_edit_text(user_album_path(@album.user, @album), :model => @album, :attribute => :description) %>

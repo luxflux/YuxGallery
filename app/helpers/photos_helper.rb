@@ -6,7 +6,7 @@ module PhotosHelper
       r << "content = $(#{src_field}).html();"
       r << "$('#{ele}').html(content);"
       r << "$('#{ele}').parent().set('title', content);"
-    end 
+    end
     r.join
   end
 

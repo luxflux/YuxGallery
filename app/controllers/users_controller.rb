@@ -68,7 +68,7 @@ class UsersController < ApplicationController
         when @user.update_attributes(params[:user])
           format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
           format.xml  { head :ok }
-          format.js   { render :js => "raf_update_flash('notice','#{t(".ok")}'); Lightbox.hide()" } 
+          format.js   { render :js => "raf_update_flash('notice','#{t(".ok")}'); Lightbox.hide()" }
         else
           format.html { render :action => "edit" }
           format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }

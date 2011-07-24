@@ -6,9 +6,9 @@ ActionController::Renderers.add(:rightjs_ac) do |js, options|
   render = "<ul>"
   js.each do |model|
     render += "<li>#{model}</li>"
-  end 
+  end
   render += "</ul>"
-  
+
   self.content_type = Mime::HTML
   self.response_body = render
 end

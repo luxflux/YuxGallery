@@ -8,9 +8,9 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     if File.exists?(scan.fullpath)
       scan_dir(scan.fullpath)
     end
-    
+
     set_total_items(@items.length)
-    
+
     @items.each do |entry|
       photo = scan.album.photos.new(:photo => File.open(entry))
       photo.set_from_exif!
@@ -32,7 +32,7 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
   def failure
     set_state :fail
   end
-  
+
   def set_state(state)
     scan.state = state
     scan.save!

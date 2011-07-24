@@ -4,12 +4,12 @@
     <b>Name:</b>
     <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name, :update_elements => [ @photo.name ]) %>
   </p>
-  
+
   <p>
     <b>Description:</b>
     <%= yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description) %>
   </p>
-  
+
   <p>
     <b>Date:</b>
     <%= @photo.shot_at %>

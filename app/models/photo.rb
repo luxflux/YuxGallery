@@ -17,9 +17,9 @@ class Photo < ActiveRecord::Base
   mount_uploader :photo, PhotoUploader
 
   validates_presence_of :name
-  
+
   has_friendly_id :name, :use_slug => true
-  
+
   belongs_to :album
 
   before_create :set_from_exif
