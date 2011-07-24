@@ -47,10 +47,10 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    exifr (1.0.5)
-    factory_girl (2.0.0.rc4)
-    factory_girl_rails (1.1.rc1)
-      factory_girl (~> 2.0.0.rc)
+    exifr (1.0.6)
+    factory_girl (2.0.1)
+    factory_girl_rails (1.1.0)
+      factory_girl (~> 2.0.0)
       railties (>= 3.0.0)
     friendly_id (3.2.1.1)
       babosa (~> 0.3.0)
@@ -87,6 +87,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.9.2)
+    rcov (0.9.9)
     rdoc (3.8)
     right-rails (1.2.2)
     rspec (2.6.0)
@@ -129,6 +130,7 @@ DEPENDENCIES
   mocha
   pg
   rails (= 3.0.9)
+  rcov
   right-rails
   rspec-rails
   spork (~> 0.9.0.rc)
