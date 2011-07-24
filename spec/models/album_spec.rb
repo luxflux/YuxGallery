@@ -15,7 +15,7 @@ describe Album do
 
   it "does not accept an already existing name" do
     FactoryGirl.create(:album)
-    a = FactoryGirl.build(:album)
+    a = User.first.albums.build(:name => Album.first.name)
     a.save
     a.should have(1).errors_on(:name)
   end
