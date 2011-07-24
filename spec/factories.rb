@@ -30,10 +30,6 @@ FactoryGirl.define do
   factory :scan do
     album
     directory "MyTestDirectory"
-    after_build do |directory|
-      File.any_instance.stubs(:exists?).with(directory.fullpath).returns(true)
-      File.any_instance.stubs(:directory?).with(directory.fullpath).returns(true)
-    end
   end
 
 end
