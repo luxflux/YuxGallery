@@ -21,10 +21,18 @@ FactoryGirl.define do
     end
   end
 
+  sequence :email do |n|
+    "test#{n}@example.org"
+  end
+
+  sequence :nickname do |n|
+    "Testobject ##{n}"
+  end
+
   factory :user do
-    email "test@example.org"
+    email
     password "test123"
-    nickname "Testuser"
+    nickname
   end
 
   factory :scan do
