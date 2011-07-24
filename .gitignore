@@ -9,3 +9,4 @@ config/deploy/
 Capfile
 extras/capistrano_database_yml.rb
 *.swp
+coverage/
