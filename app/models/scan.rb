@@ -82,7 +82,7 @@ class Scan < ActiveRecord::Base
         start = self.job.run_at
       when :success
         state = "done"
-        speed = self.runtime.zero? ? 0 : self.runtime / self.counter
+        speed = self.counter.zero? ? 0 : self.runtime / self.counter
         start = self.updated_at.to_i - self.runtime
       when :error, :fail
         state = "error"
