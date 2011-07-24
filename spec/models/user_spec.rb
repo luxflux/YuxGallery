@@ -5,6 +5,12 @@ describe User do
     FactoryGirl.build(:user).should be_an_instance_of(User)
   end
 
+  it "wants at least three alphanumeric signs as username" do
+    u = FactoryGirl.build(:user, :nickname => "--a-")
+    u.save
+    u.should have(1).errors_on(:nickname)
+  end
+
   context "which has been saved" do
     before do
       @user = FactoryGirl.create(:user) 
