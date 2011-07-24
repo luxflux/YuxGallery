@@ -10,6 +10,12 @@ describe User do
     u.save
     u.should have(1).errors_on(:nickname)
   end
+  
+  it "does not allow .. as username" do
+    u = FactoryGirl.build(:user, :nickname => "../test/")
+    u.save
+    u.should have(1).errors_on(:nickname)
+  end
 
   context "which has been saved" do
     before do

@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :nickname
   validates_presence_of   :nickname
   validates_format_of     :nickname, :with => %r{[a-zA-Z0-9]{3,}}
+  validates_format_of     :nickname, :without => %r{\.{2}}
 
   has_many :albums, :dependent => :destroy
   has_many :photos, :through => :albums
