@@ -15,7 +15,7 @@
 
 
 <% if @photos.length > 0 %>
-  <% tabs :type => :carousel do %>
+  <%= tabs :type => :carousel do %>
     <% @photos.each do |photo| %>
       <% tab image_tag(photo.photo.carousel.url), :url => user_album_photo_path(photo.album.user, photo.album, photo) %>
     <% end %>
