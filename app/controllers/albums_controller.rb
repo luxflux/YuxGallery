@@ -1,13 +1,12 @@
 class AlbumsController < ApplicationController
+
+  respond_to :html, :xml
+
   # GET /albums
   # GET /albums.xml
   def index
     @albums = Album.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @albums }
-    end
+    respond_with(@albums)
   end
 
 #  # GET /albums/1
@@ -25,16 +24,13 @@ class AlbumsController < ApplicationController
   # GET /albums/new.xml
   def new
     @album = Album.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @album }
-    end
+    respond_with(@album)
   end
 
   # GET /albums/1/edit
   def edit
     @album = Album.find(params[:id])
+    respond_with(@album)
   end
 
   # POST /albums
