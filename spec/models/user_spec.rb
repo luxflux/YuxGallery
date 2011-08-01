@@ -31,7 +31,7 @@ describe User do
     end
 
     it "removes the sftp folder after beeing destroyed" do
-      @user.destroy
+      @user.reload.destroy
       File.directory?(@user.sftp_folder).should be_false
     end
 
