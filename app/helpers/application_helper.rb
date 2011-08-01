@@ -148,7 +148,7 @@ module ApplicationHelper
   end
 
   def yux_default_photo
-    "/images/rails.png"
+    "/assets/rails.png"
   end
 
   def label_with_tooltip(f, name, tooltip = false)
