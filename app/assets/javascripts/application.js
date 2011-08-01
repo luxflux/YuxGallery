@@ -1,3 +1,14 @@
+//=require right
+//=require right/rails
+//=require right/tabs
+//=require right/lightbox
+//=require right/calendar
+//=require right/in-edit
+//=require right/autocompleter
+//=require right/uploader
+//=require right/tooltips
+//=require right/json
+
 
 function show_for_a_while(element, duration) {
 
