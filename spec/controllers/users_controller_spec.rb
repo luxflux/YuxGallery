@@ -23,12 +23,12 @@ describe UsersController do
       end
     end
 
-    context "with a HTML request" do
+    context "with a XML request" do
       before do
         get :index, :format => :xml
       end
       
-      it "renders @users as xml for xml requests" do
+      it "renders @users as xml" do
         response.content_type.should eq("application/xml")
       end
     end
