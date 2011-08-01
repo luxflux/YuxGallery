@@ -80,3 +80,4 @@ function load_form_response_in_lightbox(form_id) {
     }});
   });
 }
+
