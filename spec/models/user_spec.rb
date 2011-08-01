@@ -42,5 +42,16 @@ describe User do
       @user.sftp_folder.should_not == sftp_folder
       File.directory?(@user.sftp_folder).should be_true
     end
+
+    it "returns a random photo on random_photo" do
+      album = FactoryGirl.create(:album, :user_id => @user.id)
+      photo = FactoryGirl.create(:photo, :album_id => album.id)
+      @user.random_photo.should eq(photo)
+    end
+
+    it "responds on title and returns the nickname" do
+      @user.title.should eq(@user.nickname)
+    end
+
   end
 end 
