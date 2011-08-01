@@ -8,7 +8,7 @@ gem 'rails', '3.1.0.rc5'
 gem 'pg'
 gem 'right-rails'
 gem 'devise'
-gem 'friendly_id', "~> 3.2.1"
+gem 'friendly_id', "~> 3.3.0.rc2"
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'delayed_job'
