@@ -41,12 +41,12 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.save
-        format.any(:html,:js) { redirect_to([@album.user,@album, :photos], :notice => 'Album was successfully created.') }
-        format.xml  { render :xml => @album, :status => :created, :location => @album }
+        format.any(:html,:js) { redirect_to(user_album_photos_path(@album.user, @album), :notice => 'Album was successfully created.') }
+        format.xml  { render :xml => @album, :status => :created }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
-        format.js   { render :js => update_lightboxes_with_errors_for(@album) }
+        format.js   { render :partial => "layouts/update_lightbox_with_errors_for", :local => { :model => @album } }
       end
     end
   end

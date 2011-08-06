@@ -80,6 +80,66 @@ describe AlbumsController do
   end
 
   describe "POST create" do
+    context "with a HTML request" do
+      it "creates @album" do
+        sign_in @user
+        post :create, :user_id => @user.id, :album => { :name => "Testalbum" }
+        assigns(:album).should be_instance_of(Album)
+        response.should redirect_to(user_album_photos_path(@user,assigns(:album)))
+      end
+
+      it "shows the errors from the model" do
+        sign_in @user
+        post :create, :user_id => @user.id
+        assigns(:album).should be_instance_of(Album)
+        assigns(:album).should have(1).errors_on(:name)
+        response.should render_template("new")
+      end
+
+#      it "requires a logged in user" do
+#        post :create, :user_id => @user.id, :album => { :name => "Testalbum" }
+#        response.should redirect_to(root_path)
+#        response.should render_template("unauthorized")
+#      end
+    end
+
+    context "with a JS request" do
+      it "creates @album" do
+        sign_in @user
+        post :create, :user_id => @user.id, :album => { :name => "Testalbum" }, :format => :js
+        assigns(:album).should be_instance_of(Album)
+        response.should redirect_to(user_album_photos_path(@user,assigns(:album)))
+        response.content_type.should eq("text/javascript")
+      end
+      
+      it "shows the errors from the model" do
+        sign_in @user
+        post :create, :user_id => @user.id, :format => :js
+        assigns(:album).should be_instance_of(Album)
+        assigns(:album).should have(1).errors_on(:name)
+        response.content_type.should eq("text/javascript")
+        response.should render_template("update_lightbox_with_errors_for")
+      end
+    end
+  
+    context "with a XML request" do
+      it "creates @album" do
+        sign_in @user
+        post :create, :user_id => @user.id, :album => { :name => "Testalbum" }, :format => :xml
+        assigns(:album).should be_instance_of(Album)
+        response.should be_success
+        response.content_type.should eq("application/xml")
+      end
+      
+      it "shows the errors from the model" do
+        sign_in @user
+        post :create, :user_id => @user.id, :format => :js, :format => :xml
+        assigns(:album).should be_instance_of(Album)
+        assigns(:album).should have(1).errors_on(:name)
+        response.content_type.should eq("application/xml")
+        response.response_code.should eq(422)
+      end
+    end
 
   end
 
