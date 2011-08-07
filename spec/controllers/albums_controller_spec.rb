@@ -140,7 +140,43 @@ describe AlbumsController do
         response.response_code.should eq(422)
       end
     end
+  end
+  
+  describe "PUT update" do
+# TODO: add user auth
+    context "with a HTML request" do
+      it "updates the album with the new params" do
+        put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }
+        @album.reload.name.should eq("My Test Album Changed Name")
+        response.should redirect_to([@user,@album])
+      end
 
+#      it "allowes only the owner to edit the album" do
+#        old_name = @album.name
+#        user2 = FactoryGirl.create(:user)
+#        sign_in user2
+#        put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }
+#        @album.reload.name.should eq(old_name)
+#        response.should redirect_to(root_url)
+#      end
+
+      it "renders the edit action if the params were not valid" do
+        put :update, :id => @album.id, :user_id => @user.id, :album => { :date_end => Time.now, :date_start => Time.now + 1.day }
+        assigns(:album).should have(1).errors_on(:date_end)
+        response.should render_template("edit")
+      end
+    end
+
+    context "with a XML request" do
+      it "updates the album the new params" do
+        put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }, :format => :xml
+        @album.reload.name.should eq("My Test Album Changed Name")
+        response.should be_success
+      end
+#      it "renders the errors on the album model" do
+#        put :update, :id => @album.id, :user_id => @user.id, :album => { :date_end => Time.now, :date_start => Time.now + 1.day }, :format => :xml
+#      end
+    end
   end
 
 end

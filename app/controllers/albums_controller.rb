@@ -56,15 +56,10 @@ class AlbumsController < ApplicationController
   def update
     @album = Album.find(params[:id])
 
-    if request.xhr?
-      key, value = params[:album].first
-    end
-
     respond_to do |format|
       if @album.update_attributes(params[:album])
-        format.html { redirect_to(@album, :notice => 'Album was successfully updated.') }
+        format.html { redirect_to([@album.user,@album], :notice => 'Album was successfully updated.') }
         format.xml  { head :ok }
-        format.js   { render :js => @album.send(key) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
