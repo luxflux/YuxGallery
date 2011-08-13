@@ -35,6 +35,9 @@ class Scan < ActiveRecord::Base
   after_create :run!
 
   def state
+    if self[:state].nil? && new_record?
+      set_state_on_create
+    end
     self[:state].to_sym
   end
 
