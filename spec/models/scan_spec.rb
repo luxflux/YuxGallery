@@ -43,9 +43,6 @@ describe Scan do
       }
     end
 
-    it "responds on title and returns its id" do
-      @scan.title.should eq(@scan.id)
-    end
   end
 
 end 
