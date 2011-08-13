@@ -10,6 +10,10 @@ en:
             date_end:
               should_be_after_date_start: "should be later than start date"
 
+  tooltip:
+    album:
+      date_start: "Date when the first photo of the album has been taken, if left empty will be filled in when photos are added"
+      date_end: "Date when the last photo of the album has been taken, if left empty will be filled in when photos are added"
   layouts:
     application:
       path:
@@ -38,9 +42,6 @@ en:
         title: :"albums.new.title"
       edit:
         title: :"albums.edit.title"
-      tooltip:
-        date_start: "Date when the first photo of the album has been taken, if left empty will be filled in when photos are added"
-        date_end: "Date when the last photo of the album has been taken, if left empty will be filled in when photos are added"
   users:
     edit:
       title: "Edit Profile"
@@ -73,6 +74,7 @@ en:
         one: "This album has just one photo."
         other: "This album has %{count} photos."
   scans:
+    title: "Scan #%{id}"
     new:
       title: "New Scan"
 
