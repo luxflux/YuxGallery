@@ -123,6 +123,10 @@ describe AlbumsController do
     end
   
     context "with a XML request" do
+      after do
+        response.content_type.should eq("application/xml")
+      end
+
       it "creates @album" do
         sign_in @user
         post :create, :user_id => @user.id, :album => { :name => "Testalbum" }, :format => :xml
@@ -136,7 +140,6 @@ describe AlbumsController do
         post :create, :user_id => @user.id, :format => :js, :format => :xml
         assigns(:album).should be_instance_of(Album)
         assigns(:album).should have(1).errors_on(:name)
-        response.content_type.should eq("application/xml")
         response.response_code.should eq(422)
       end
     end
@@ -168,14 +171,55 @@ describe AlbumsController do
     end
 
     context "with a XML request" do
-      it "updates the album the new params" do
+      after do
+        response.content_type.should eq("application/xml")
+      end
+
+      it "updates the album with the new params" do
         put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }, :format => :xml
         @album.reload.name.should eq("My Test Album Changed Name")
         response.should be_success
       end
-#      it "renders the errors on the album model" do
-#        put :update, :id => @album.id, :user_id => @user.id, :album => { :date_end => Time.now, :date_start => Time.now + 1.day }, :format => :xml
-#      end
+      it "renders the errors on the album model" do
+        put :update, :id => @album.id, :user_id => @user.id, :album => { :date_end => Time.now, :date_start => Time.now + 1.day }, :format => :xml
+        assigns(:album).should have(1).errors_on(:date_end)
+        response.response_code.should eq(422)
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    context "with a HTML request" do
+      before do
+        delete :destroy, :id => @album.id, :user_id => @user.id
+      end
+
+      it "removes the album" do
+        Album.all.length.should eq(0)
+      end
+
+      it "redirects to the albums list" do
+        response.should redirect_to(user_albums_path(@user))
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        delete :destroy, :id => @album.id, :user_id => @user.id, :format => :xml
+      end
+
+      after do
+        response.content_type.should eq("application/xml")
+      end
+
+      it "removes the album" do
+        Album.all.length.should eq(0)
+      end
+
+      it "should be successful request" do
+        response.should be_success
+      end
+
     end
   end
 
