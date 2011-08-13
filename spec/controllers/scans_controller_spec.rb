@@ -106,12 +106,10 @@ describe ScansController do
   end
 
   describe "POST create" do
-    let :current_user do
-      @user
-    end
     context "with a HTML request" do
       context "and valid params" do
         before do
+          Scan.any_instance.stubs(:validate_directory).returns(true)
           post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "/test" }
         end
     
@@ -119,8 +117,109 @@ describe ScansController do
           assigns(:scan)
         end
         it { should be_instance_of(Scan) }
-        it { should be_valid?(Scan) }
-        it { should be_persisted(Scan) }
+        it { should be_valid(Scan) }
+        it { should be_persisted }
+
+        it "redirects to the scan" do
+          response.should redirect_to(user_album_scan_path(@user, @album, assigns(:scan)))
+        end
+      end
+
+      context "and invalid params" do
+        before do
+          sign_in @user
+          post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }
+        end
+
+        subject do
+          assigns(:scan)
+        end
+        it { should have(3).errors_on(:directory) }
+  
+        it "ensures that directory is not a fullpath" do
+          assigns(:scan).directory.should eq("../test")
+        end
+
+        it "renders the new template" do
+          response.should render_template("new")
+        end
+      end
+    end
+
+    context "with a XML request" do
+      context "and valid params" do
+        before do
+          Scan.any_instance.stubs(:validate_directory).returns(true)
+          post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "/test" }, :format => :xml
+        end
+
+        it "renders the new created Scan as xml" do
+          response.content_type.should eq("application/xml")
+        end
+      end
+
+      context "and invalid params" do
+        before do
+          sign_in @user
+          post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }, :format => :xml
+        end
+
+        it "renders the errors on the model" do
+          response.content_type.should eq("application/xml")
+          response.response_code.should eq(422)
+        end
+      end
+    end
+
+    context "with a JS request" do
+      context "and valid params" do
+        before do
+          Scan.any_instance.stubs(:validate_directory).returns(true)
+          post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "/test" }, :format => :js
+        end
+
+        it "uses lightbox to load the path to new scan" do
+          response.body.should eq("Lightbox.load('#{user_album_scan_path(@user, @album, assigns(:scan))}');")
+        end
+      end
+
+      context "and invalid params" do
+        before do
+          sign_in @user
+          post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }, :format => :js
+        end
+
+        it "renders the errors in the lightbox" do
+          response.content_type.should eq("text/javascript")
+          response.should render_template("update_lightbox_with_errors_for")
+        end
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    context "with a HTML request" do
+      before do
+        delete :destroy, :user_id => @user.id, :album_id => @album.id, :id => @scan.id
+      end
+
+      it "removes the given Scan" do
+        Scan.all.length.should eq(0)
+      end
+
+      it "redirects to the overview of the scans" do
+        response.should redirect_to(user_album_scans_path(@user, @album))
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        delete :destroy, :user_id => @user.id, :album_id => @album.id, :id => @scan.id, :format => :xml
+      end
+
+      it "removes the given Scan and replies with a successful state" do
+        Scan.all.length.should eq(0)
+        response.should be_success
       end
     end
   end

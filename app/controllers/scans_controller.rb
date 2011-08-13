@@ -49,14 +49,13 @@ class ScansController < ApplicationController
     respond_to do |format|
       if @scan.save
         format.html { redirect_to([ @user, @album, @scan ], :notice => 'Scan was successfully created.') }
-        format.xml  { render :xml => @scan, :status => :created, :location => @scan }
+        format.xml  { render :xml => @scan, :status => :created, :location => [ @user, @album, @scan ] }
         format.js   { render :js => "Lightbox.load('#{user_album_scan_path(@user, @album, @scan)}');" }
       else
         @scan.directory = @scan.directory.gsub(%r{#{Regexp.escape(current_user.sftp_folder)}}, '')
         format.html { render :action => "new" }
         format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
-        format.js do
-        end
+        format.js   { render :partial => "layouts/update_lightbox_with_errors_for", :local => { :model => @scan } }
       end
     end
   end
@@ -84,8 +83,8 @@ class ScansController < ApplicationController
     @scan.destroy
 
     respond_to do |format|
-      format.html { redirect_to(scans_url) }
-      format.xml  { head :ok }
+      format.any(:html, :js) { redirect_to([@user, @album, :scans]) }
+      format.xml             { head :ok }
     end
   end
 
