@@ -2,22 +2,20 @@ class ScansController < ApplicationController
 
   before_filter :init_scan
 
+  respond_to :html, :xml, :json
+
   # GET /scans
   # GET /scans.xml
   def index
     @scans = Scan.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @scans }
-    end
+    respond_with(@scans)
   end
 
   # GET /scans/1
   # GET /scans/1.xml
   def show
-    @scan = @album.scans.find(params[:id]) if @album.user == current_user
-
+    @scan = Scan.find(params[:id])
     #reply = {
     #  "state" => "uploading",
     #  "received" => "50",
@@ -27,38 +25,26 @@ class ScansController < ApplicationController
     #  "uuid" => @scan.id
     #}
 
-    respond_to do |format|
-      format.html do
-      end
-      format.js   { render :action => :show }
-      format.xml  { render :xml => @scan.status }
-      format.json { render :json => @scan.status }
-    end
+    respond_with(@scan.status)
   end
 
   # GET /scans/new
   # GET /scans/new.xml
   def new
     @scan = @album.scans.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @scan }
-    end
+    respond_with(@scan)
   end
 
   # GET /scans/1/edit
-  def edit
-    @scan = Scan.find(params[:id])
-  end
+#  def edit
+#    @scan = Scan.find(params[:id])
+#    respond_with(@scan)
+#  end
 
   # POST /scans
   # POST /scans.xml
   def create
-    if @album.user == current_user
-      @scan = @album.scans.new(params[:scan])
-#      @scan.directory = File.join(current_user.sftp_folder, params[:scan][:directory])
-    end
+    @scan = @album.scans.new(params[:scan])
 
     respond_to do |format|
       if @scan.save
@@ -77,19 +63,19 @@ class ScansController < ApplicationController
 
   # PUT /scans/1
   # PUT /scans/1.xml
-  def update
-    @scan = Scan.find(params[:id])
-
-    respond_to do |format|
-      if @scan.update_attributes(params[:scan])
-        format.html { redirect_to(@scan, :notice => 'Scan was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+#  def update
+#    @scan = Scan.find(params[:id])
+#
+#    respond_to do |format|
+#      if @scan.update_attributes(params[:scan])
+#        format.html { redirect_to(@scan, :notice => 'Scan was successfully updated.') }
+#        format.xml  { head :ok }
+#      else
+#        format.html { render :action => "edit" }
+#        format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
+#      end
+#    end
+#  end
 
   # DELETE /scans/1
   # DELETE /scans/1.xml
