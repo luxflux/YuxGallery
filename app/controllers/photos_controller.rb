@@ -2,15 +2,13 @@ class PhotosController < ApplicationController
 
   before_filter :init_photo
 
+  respond_to :xml, :html
+
   # GET /photos
   # GET /photos.xml
   def index
     @photos = Album.find(params[:album_id]).photos
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @photos }
-    end
+    respond_with(@photos)
   end
 
   # GET /photos/1
