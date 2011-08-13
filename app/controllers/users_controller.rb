@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  respond_to :html, :xml, :rightjs_ac
+
   # GET /users
   # GET /users.xml
   def index
@@ -88,4 +91,13 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /users/:id/folders
+  def folders
+    @folders = User.find(params[:id]).glob_sftp_folders(params[:search])
+    respond_with(@folders) do |format|
+      format.rightjs_ac { render :rightjs_ac => @folders }
+    end
+  end
+
 end

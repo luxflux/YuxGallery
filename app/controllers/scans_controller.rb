@@ -88,12 +88,6 @@ class ScansController < ApplicationController
     end
   end
 
-  # GET /scans/folders
-  def folders
-    @list = current_user.glob_sftp_folders(params[:search])
-    render :rightjs_ac => @list
-  end
-
   private
     def init_scan
       @scan = Scan.find(params[:id]) if params[:id]
