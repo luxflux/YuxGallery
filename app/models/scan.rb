@@ -34,10 +34,6 @@ class Scan < ActiveRecord::Base
   before_create :ensure_directory_is_a_directory
   after_create :run!
 
-  def title
-    self.id
-  end
-
   def state
     self[:state].to_sym
   end
