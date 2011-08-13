@@ -150,4 +150,27 @@ describe UsersController do
     end
   end
 
+  describe "GET folders" do
+    [ :xml, :rightjs_ac ].each do |format|
+      context "with a #{format.to_s.upcase} request" do
+        before do
+          get :folders, :id => @user.id, :search => "/test", :format => format
+        end
+
+        it "assigns @folders with the found folders" do
+          assigns(:folders).should be_instance_of(Array)
+        end
+
+        it "renders the found folders as #{format}" do
+          case format
+          when :xml
+            response.content_type.should eq("application/#{format}")
+          when :rightjs_ac
+            response.content_type.to_s.should eq("text/html")
+          end
+        end
+      end
+    end
+  end
+
 end

@@ -3,11 +3,11 @@ YuxGallery::Application.routes.draw do
   devise_for :users, :controllers => { :sessions => "users/sessions" }
 
   resources :users, :except => [ :show, :new, :create ] do
+    member do
+      get "/folders(.:format)" => "users#folders", :as => "folders"
+    end
     resources :albums, :except => [ :show ] do
       resources :scans do
-        collection do
-          get :folders
-        end
       end
       resources :photos
     end
