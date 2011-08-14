@@ -38,4 +38,83 @@ describe PhotosController do
     end
   end
 
+  describe "GET show" do
+    context "with a HTML request" do
+      before do
+        get :show, :user_id => @user.id, :album_id => @album.id, :id => @photo.id
+      end
+
+      it "assigns @photo" do
+        assigns(:photo).should eq(@photo)
+      end
+
+      it "renders the show template" do
+        response.should render_template("show")
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        get :show, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :format => :xml
+      end
+
+      it "renders @photo as xml" do
+        response.content_type.should eq("application/xml")
+      end
+    end
+  end
+
+  describe "GET new" do
+    context "with a HTML request" do
+      before do
+        get :new, :user_id => @user.id, :album_id => @album.id
+      end
+
+      it "assigns @photo" do
+        assigns(:photo).should be_instance_of(Photo)
+        assigns(:photo).should_not be_persisted
+      end
+
+      it "renders the new template" do
+        response.should render_template("new")
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        get :new, :user_id => @user.id, :album_id => @album.id, :format => :xml
+      end
+
+      it "renders @photo as xml" do
+        response.content_type.should eq("application/xml")
+      end
+    end
+  end
+
+  describe "GET edit" do
+    context "with a HTML request" do
+      before do
+        get :edit, :user_id => @user.id, :album_id => @album.id, :id => @photo.id
+      end
+
+      it "assigns @photo" do
+        assigns(:photo).should eq(@photo)
+      end
+
+      it "renders the edit template" do
+        response.should render_template("edit")
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        get :edit, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :format => :xml
+      end
+
+      it "renders @photo as xml" do
+        response.content_type.should eq("application/xml")
+      end
+    end
+  end
+
 end
