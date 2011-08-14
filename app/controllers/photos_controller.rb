@@ -40,7 +40,7 @@ class PhotosController < ApplicationController
     respond_to do |format|
       if @photo.save
         format.html { redirect_to([current_user, @photo.album, @photo], :notice => 'Photo was successfully created.') }
-        format.xml  { render :xml => @photo, :status => :created, :location => @photo }
+        format.xml  { render :xml => @photo, :status => :created, :location => [ current_user, @photo.album, @photo ] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @photo.errors, :status => :unprocessable_entity }
