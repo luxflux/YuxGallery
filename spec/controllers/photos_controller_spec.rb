@@ -154,6 +154,33 @@ describe PhotosController do
         end
       end
     end
+
+    context "with a XML request" do
+      context "with valid params" do
+        before do
+          post :create, :user_id => @user.id, :album_id => @album.id, :photo => { :name => "test" }, :format => :xml
+        end
+
+        it "renders the new Photo as xml" do
+          response.content_type.should eq("application/xml")
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          post :create, :user_id => @user.id, :album_id => @album.id, :photo => { }, :format => :xml
+        end
+
+        it "renders the errors as xml" do
+          response.content_type.should eq("application/xml")
+        end
+
+        it "has not a successful reply state" do
+          response.should_not be_success
+          response.response_code.should eq(422)
+        end
+      end
+    end
   end
 
 end
