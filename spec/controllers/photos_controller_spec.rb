@@ -9,7 +9,7 @@ describe PhotosController do
     @album = FactoryGirl.create(:album, :user_id => @user.id)
     @photo = FactoryGirl.create(:photo, :album_id => @album.id)
     # we have to stub out the PhotoUploader, otherwhise to_xml fails, but only in the tests
-    Photo.any_instance.stubs(:photo).returns(true)
+    Photo.any_instance.stubs(:mount_uploader).returns(true)
     Photo.any_instance.stubs(:set_from_exif).returns(true)
   end
 
@@ -178,6 +178,86 @@ describe PhotosController do
         it "has not a successful reply state" do
           response.should_not be_success
           response.response_code.should eq(422)
+        end
+      end
+    end
+  end
+
+  describe "PUT update" do
+    before do
+      sign_in @user
+    end
+    context "with a HTML request" do
+      context "and valid params" do
+        before do
+          put :update, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :photo => { :name => "test" }
+        end
+
+        it "assigns @photo with the Photo which should be changed" do
+          assigns(:photo).should eq(@photo)
+        end
+
+        it "updates the Photo with the new attribute" do
+          @photo.name.should_not eq("test")
+          @photo.reload.name.should eq("test")
+        end
+      end
+
+      context "and invalid params" do
+        before do
+          put :update, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :photo => { :name => nil }
+        end
+
+        subject do
+          assigns(:photo)
+        end
+        it { should have(1).errors_on(:name) }
+
+        it "renders the edit template" do
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    context "with a XML request" do
+      context "and valid params" do
+        before do
+          put :update, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :photo => { :name => "test" }, :format => :xml
+        end
+
+        it "has a successful response code" do
+          response.should be_success
+        end
+      end
+
+      context "and invalid params" do
+        before do
+          put :update, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :photo => { :name => nil }, :format => :xml
+        end
+
+        it "renders the errors on @photo as xml" do
+          response.content_type.should eq("application/xml")
+        end
+
+        it "has a unsuccessful response code" do
+          response.should_not be_success
+          response.response_code.should eq(422)
+        end
+      end
+    end
+
+    context "with a JS request" do
+      context "and valid params" do
+        before do
+          put :update, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :photo => { :name => "test" }, :format => :js
+        end
+
+        it "replies with the new value in the body" do
+          response.body.should eq("test")
+        end
+
+        it "replies with xhr content" do
+          response.content_type.to_s.should eq("text/javascript")
         end
       end
     end

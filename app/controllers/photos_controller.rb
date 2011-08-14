@@ -51,21 +51,17 @@ class PhotosController < ApplicationController
   # PUT /photos/1
   # PUT /photos/1.xml
   def update
-    @photo = current_user.albums.find(params[:album_id]).photos.find(params[:id])
-
-    if request.xhr?
-      key, value = params[:photo].first
-    end
+    @photo = Photo.find(params[:id])
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
         format.html { redirect_to([current_user, @photo.album, @photo], :notice => 'Photo was successfully updated.') }
         format.xml  { head :ok }
-        format.js   { render :js => @photo.send(key) }
+        format.js   { render :js => @photo.send(params[:photo].first.first.to_sym) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @photo.errors, :status => :unprocessable_entity }
-        format.js   { render :js => @photo.send(key) }
+        format.js   { render :js => @photo.send(params[:photo].first.first.to_sym) }
       end
     end
   end
