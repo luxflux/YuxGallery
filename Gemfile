@@ -5,7 +5,7 @@ gem 'rails', '3.1.0.rc5'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'sqlite3'
 gem 'right-rails'
 gem 'devise'
 gem 'friendly_id', "~> 3.3.0.rc2"
@@ -14,6 +14,7 @@ gem 'mini_magick'
 gem 'delayed_job'
 gem 'exifr'
 gem 'cancan'
+gem 'haml-rails'
 
 # Use unicorn as the web server
 #gem 'unicorn'
@@ -41,14 +42,11 @@ gem 'cancan'
 group :development do
   gem 'annotate'
 end
-group :test do
-  gem 'sqlite3'
-end
 group :development, :test do
   gem 'rspec-rails'
   gem 'watchr'
   gem 'spork', '~> 0.9.0.rc'
   gem 'factory_girl_rails', "~> 1.1.rc1"
-  gem 'mocha'
   gem 'rcov'
+  gem 'capybara'
 end
