@@ -20,3 +20,7 @@ end
 watch("app/(.*/.*)\.html\.erb") do |match|
   run_spec %{spec/#{match[1]}_spec.rb}
 end
+
+watch("app/(.*/.*\.html\.haml)") do |match|
+  run_spec %{spec/#{match[1]}_spec.rb}
+end
