@@ -73,7 +73,7 @@ class PhotosController < ApplicationController
     @photo.destroy
 
     respond_to do |format|
-      format.html { redirect_to(photos_url) }
+      format.html { redirect_to([@user, @album, :photos]) }
       format.xml  { head :ok }
     end
   end
