@@ -263,4 +263,38 @@ describe PhotosController do
     end
   end
 
+  describe "DELETE destroy" do
+    context "with a HTML request" do
+      before do
+        delete :destroy, :user_id => @user.id, :album_id => @album.id, :id => @photo.id
+      end
+
+      it "assigns @photo with the photo which should be deleted" do
+        assigns(:photo).should eq(@photo)
+      end
+
+      it "removes the specified photo" do
+        Photo.find_by_id(@photo.id).should eq(nil)
+      end
+
+      it "redirects to the photos collection" do
+        response.should redirect_to(user_album_photos_path(@user, @album))
+      end
+    end
+
+    context "with a XML request" do
+      before do
+        delete :destroy, :user_id => @user.id, :album_id => @album.id, :id => @photo.id, :format => :xml
+      end
+
+      it "renders a success" do
+        response.should be_success
+      end
+
+      it "renders XML" do
+        response.content_type.should eq("application/xml")
+      end
+    end
+  end
+
 end
