@@ -49,4 +49,5 @@ group :development, :test do
   gem 'factory_girl_rails', "~> 1.1.rc1"
   gem 'rcov'
   gem 'capybara'
+  gem 'mocha'
 end

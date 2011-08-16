@@ -81,6 +81,7 @@ GEM
     mime-types (1.16)
     mini_magick (3.3)
       subexec (~> 0.1.0)
+    mocha (0.9.12)
     multi_json (1.0.3)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
@@ -166,6 +167,7 @@ DEPENDENCIES
   friendly_id (~> 3.3.0.rc2)
   haml-rails
   mini_magick
+  mocha
   rails (= 3.1.0.rc5)
   rcov
   right-rails
