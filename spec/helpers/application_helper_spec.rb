@@ -114,44 +114,6 @@ describe ApplicationHelper do
     end
   end
 
-  describe "yux_show_a_photo_collection" do
-    context "without a pre- or postfix" do
-      it "shows a link to the object" do
-        result = yux_show_a_photo_collection(User.all)
-        User.all.each do |user|
-          result.should match(/#{user_path(user)}/)
-        end
-      end
-    end
-
-    context "with a prefix" do
-      it "shows a link with a prefix" do
-        result = yux_show_a_photo_collection(@user.albums, :prefix => @user)
-        @user.albums.each do |album|
-          result.should match(/#{user_album_path(@user, album)}/)
-        end
-      end
-    end
-
-    context "with a postfix" do
-      it "shows a link with a postfix" do
-        result = yux_show_a_photo_collection(User.all, :postfix => :albums)
-        User.all.each do |user|
-          result.should match(/#{user_albums_path(user)}/)
-        end
-      end
-    end
-    
-    context "with a pre- and a postfix" do
-      it "shows a link with a pre- and postfix" do
-        result = yux_show_a_photo_collection(@user.albums, :prefix => @user, :postfix => :photos)
-        @user.albums.each do |album|
-          result.should match(/\"#{user_album_photos_path(@user, album)}\"/)
-        end
-      end
-    end
-  end
-
   describe "link_to_lightbox" do
     it "returns a link to the lightbox" do
       link_to_lightbox("test", users_path).should eq("<a href=\"/users\" rel=\"lightbox\" title=\"test\">test</a>")
