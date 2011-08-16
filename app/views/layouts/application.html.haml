@@ -1,0 +1,35 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %title YuxGallery
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
+    = csrf_meta_tag
+  %body
+    :javascript
+      Xhr.Options.params = "authenticity_token=#{form_auth_token}";
+    %ul{ :id => :actions }
+      - if user_signed_in?
+        %li= link_to_lightbox(t("users.edit.title"), edit_user_path(current_user))
+        %li= link_to(t("albums.new.title"), new_user_album_path(current_user))
+        %li= link_to(t("devise.sessions.destroy"), destroy_user_session_path)
+      - else
+        %li= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path)
+        %li= link_to(t("devise.registrations.new.title"), new_user_registration_path)
+      = yield(:actions)
+    #content
+      #path
+        = yux_gallery_path
+      #flash
+        %span.notice#flash_notice
+        %span.alert#flash_alert
+      #yield
+        = yield
+    - [ :notice, :alert ].each do |fl|
+      :javascript
+        $('flash_#{fl}').hide();
+        if("#{flash[fl]}" != "") {
+          raf_update_flash('notice', '#{flash[fl]}');
+        }
+
+
