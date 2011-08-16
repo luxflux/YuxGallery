@@ -84,44 +84,11 @@ module ApplicationHelper
     link_to(image_tag(image_url) + content_tag(:span, title, :id => title), destination_url, :class => :with_photo, :rel => rel, :title => title, :id => id)
   end
 
-  def yux_show_a_photo_collection(collection, *args)
-    options = args.extract_options!
-
-    prefix = options[:prefix]
-    postfix = options[:postfix]
-
-    content = ""
-    content_tag :ul, :class => :photo_collection do
-      collection.each do |item|
-        url = case
-          when prefix && postfix
-            [ prefix, item, postfix ]
-          when prefix
-            [ prefix, item ]
-          when postfix
-            [ item, postfix ]
-          else
-            item
-        end
-
-        item_photo = if item.respond_to?(:random_photo)
-                       item.random_photo
-                     else
-                       item
-                     end
-        
-        item_photo_url = if item_photo.respond_to?(:photo)
-                           item_photo.photo.thumb.url 
-                         else
-                           yux_default_photo
-                         end
-        
-        content += content_tag :li do
-          yux_link_to_with_photo(item_photo_url, url, :title => item.title)
-        end
-      end
-      content += content_tag(:div, nil, :class => :clear)
-      content.html_safe
+  def photo_url(item)
+    if item.respond_to?(:photo)
+      item.photo.thumb.url
+    else
+      yux_default_photo
     end
   end
 
