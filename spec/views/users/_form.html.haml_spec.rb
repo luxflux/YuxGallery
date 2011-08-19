@@ -15,9 +15,9 @@ describe "users/_form.html.haml" do
     it { should have_selector("fieldset") }
     it { should have_selector("legend", :contains => "Edit") }
     [ :nickname, :email ].each do |field|
-      it { should have_selector("label", :for => field) }
-      it { should have_selector("input", :name => field) }
+      it { should have_selector("label[for=user_#{field}]") }
+      it { should have_selector("input#user_#{field}") }
     end
-    it { should have_selector("input", :type => "submit") }
+    it { should have_selector("input[type=submit]") }
   end
 end

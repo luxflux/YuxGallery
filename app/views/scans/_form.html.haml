@@ -1,0 +1,7 @@
+= form_for([@user, @album, @scan], :remote => true) do |f|
+  = display_error_messages(@scan)
+  %p
+    = f.label :directory
+    = f.autocomplete_field :directory, :url => folders_user_path(@user)
+  .actions
+    = f.submit

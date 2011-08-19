@@ -25,8 +25,8 @@ describe "users/sessions/new.html.haml" do
   it { should have_selector("div#login_result") }
   it { should have_selector("form[data-remote=true]") }
   [ :nickname, :password, :remember_me ].each do |field|
-    it { should have_selector("label", :for => field) }
-    it { should have_selector("input", :name => "lalal") }
+    it { should have_selector("label[for=user_#{field}]") }
+    it { should have_selector("input#user_#{field}") }
   end
   it { should have_selector("span", :text => "Rendered links") }
 end
