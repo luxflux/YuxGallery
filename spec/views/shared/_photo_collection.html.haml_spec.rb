@@ -3,7 +3,7 @@ require "spec_helper"
 describe "shared/_photo_collection.html.haml" do
   context "without something to render" do
     before do
-      view.should_receive(:coll).any_number_of_times.and_return([])
+      view.expects(:coll).returns([])
       render
     end
 
@@ -19,7 +19,7 @@ describe "shared/_photo_collection.html.haml" do
   context "with a user to render" do
     before do
       @user = FactoryGirl.create(:user)
-      view.should_receive(:coll).any_number_of_times.and_return([@user])
+      view.expects(:coll).returns([@user])
       render
     end
 
