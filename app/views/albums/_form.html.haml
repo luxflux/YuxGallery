@@ -1,0 +1,25 @@
+= form_for([@user, @album]) do |f|
+  = field_set_tag(t(".#{@album.new_record? ? "new" : "edit"}.title")) do
+    = display_error_messages(@album)
+
+    .left
+      %p
+        = f.label :name
+        %br
+        = f.text_field :name
+      %p
+        = label_with_tooltip(f, :date_start)
+        %br
+        = f.calendar_field :date_start
+      %p
+        = label_with_tooltip(f, :date_end)
+        %br
+        = f.calendar_field :date_end
+
+      .actions
+        = f.submit
+    .right
+      %p
+        = f.label :description
+        %br
+        = f.text_area :description
