@@ -52,5 +52,13 @@ describe "photos/index.html.haml" do
       it { should have_selector("ul.rui-tabs-carousel ul") }
       it { should have_selector("ul.rui-tabs-carousel ul li a img", :count => 4) }
     end
+
+    context "and they don't belong to the logged in user" do
+      it "should not render the actions for this album" do
+        view.expects(:content_for).with(:actions).never
+        view.expects(:current_user).returns(stub_model(User))
+        render
+      end
+    end
   end
 end
