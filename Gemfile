@@ -50,4 +50,5 @@ group :development, :test do
   gem 'rcov'
   gem 'capybara'
   gem 'mocha'
+  gem 'rspec-rails-mocha'
 end
