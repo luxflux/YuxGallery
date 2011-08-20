@@ -12,7 +12,7 @@ describe "photos/index.html.haml" do
 
   context "without a photo" do
     before do
-      assign(:scans, @photos)
+      assign(:photos, @photos)
       view.expects(:t).with(".this_album_has_photos", :count => 0).returns("This album doesn't have a photo")
       view.expects(:content_for).with(:actions).returns("New Photo<br />New Scan")
       view.expects(:current_user).returns(@user)
@@ -33,7 +33,7 @@ describe "photos/index.html.haml" do
       4.times do
         @photos << stub_model(Photo, :album => @album)
       end
-      assign(:scans, @photos)
+      assign(:photos, @photos)
     end
 
     context "and they belong to the logged in user" do
