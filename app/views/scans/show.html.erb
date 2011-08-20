@@ -1,7 +1,0 @@
-<%= form_for :scan_progress, :html => { :id => "scan_progress" } do; end %>
-<%= javascript_tag do %>
-  uploader = new Uploader('scan_progress', {
-    url: '<%= user_album_scan_path(@user, @album, @scan, :json) %>'
-  });
-  uploader.start();
-<% end %>
