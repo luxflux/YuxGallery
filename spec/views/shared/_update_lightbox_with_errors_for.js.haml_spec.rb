@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "layouts/_update_lightbox_with_errors_for.js.haml" do
+describe "shared/_update_lightbox_with_errors_for.js.haml" do
   before do
     @user = stub_model(User)
     assign(:user, @user)
