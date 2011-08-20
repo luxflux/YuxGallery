@@ -1,0 +1,17 @@
+.photo
+  .description
+    %p
+      %b Name:
+      = yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name, :update_elements => [ @photo.name ])
+    %p
+      %b Description:
+      = yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description)
+    %p
+      %b Date:
+      = @photo.shot_at
+  .image
+    = yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox400.url, :rel => :lightbox, :title => @photo.name, :id => "#{@photo.id}_image_version_400")
+    = yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox800.url, :rel => :lightbox, :title => @photo.name, :id => "#{@photo.id}_image_version_800")
+    :javascript
+      set_lightbox_image_which_fits("#{@photo.id}");
+.clear
