@@ -17,7 +17,7 @@ describe Ability do
 
       # only the user himself is allowed to edit his profile
       [ :edit, :update ].each do |action|
-        it { should_not be_able_to(action, User.new) }
+        it { should_not be_able_to(action, User) }
       end
 
       # only an admin can delete a user
@@ -25,6 +25,21 @@ describe Ability do
 
       # only a user can list his folders
       it { should_not be_able_to(:folders, User) }
+    end
+
+    context "on Album" do
+      # everyone should be able to list the albums
+      it { should be_able_to(:index, Album) }
+
+      # only users and admins can create albums
+      [ :new, :create ].each do |action|
+        it { should_not be_able_to(action, Album) }
+      end
+
+      # only the owner is allowed to edit and destroy an album
+      [ :edit, :update, :destroy ].each do |action|
+        it { should_not be_able_to(action, Album) }
+      end
     end
   end
 
@@ -52,6 +67,21 @@ describe Ability do
 
       # only a user can list his folders
       it { should be_able_to(:folders, User) }
+    end
+    
+    context "on Album" do
+      # everyone should be able to list the albums
+      it { should be_able_to(:index, Album) }
+
+      # only users and admins can create albums
+      [ :new, :create ].each do |action|
+        it { should be_able_to(action, Album) }
+      end
+
+      # only the owner is allowed to edit and destroy an album
+      [ :edit, :update, :destroy ].each do |action|
+        it { should be_able_to(action, FactoryGirl.create(:album, :user_id => @user.id)) }
+      end
     end
   end
 

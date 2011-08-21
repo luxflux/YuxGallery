@@ -8,7 +8,7 @@ class Ability
     ###################
     # Access on User
     ###################
-    can :index, User # everyone can list the users
+    can :read, User # everyone can read the users
     
     unless user.guest?
       can [ :update, :folders ], User, :id => user.id # user can edit/update only himself
@@ -16,6 +16,16 @@ class Ability
     
     if user.admin?
       can :destroy, User
+    end
+
+
+    ##################
+    # Access on Album
+    ##################
+    can :read, Album # everyone can read the albums
+
+    unless user.guest?
+      can :manage, Album, :user => { :user_id => user.id }
     end
 
     # Define abilities for the passed in user here. For example:
