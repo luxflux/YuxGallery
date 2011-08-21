@@ -25,7 +25,7 @@ class Ability
     can :read, Album # everyone can read the albums
 
     unless user.guest?
-      can :manage, Album, :user => { :user_id => user.id }
+      can :manage, Album, :user => { :id => user.id }
     end
 
     # Define abilities for the passed in user here. For example:

@@ -77,10 +77,10 @@ describe Ability do
       [ :new, :create ].each do |action|
         it { should be_able_to(action, Album) }
       end
-
+      
       # only the owner is allowed to edit and destroy an album
       [ :edit, :update, :destroy ].each do |action|
-        it { should be_able_to(action, FactoryGirl.create(:album, :user_id => @user.id)) }
+        it { should be_able_to(action, FactoryGirl.create(:album, :user => @user)) }
       end
     end
   end
