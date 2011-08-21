@@ -1,5 +1,7 @@
 class AlbumsController < ApplicationController
 
+  load_and_authorize_resource :album
+
   respond_to :html, :xml
 
   # GET /albums
