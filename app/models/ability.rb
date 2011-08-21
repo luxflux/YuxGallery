@@ -28,6 +28,14 @@ class Ability
       can :manage, Album, :user => { :id => user.id }
     end
 
+    ##################
+    # Access on Scan
+    ##################
+    unless user.guest?
+      can :manage, Scan, :album => { :user_id => user.id }
+    end
+
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

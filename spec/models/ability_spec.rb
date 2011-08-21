@@ -41,6 +41,13 @@ describe Ability do
         it { should_not be_able_to(action, Album) }
       end
     end
+
+    context "on Photo" do
+      # a guest should not me able to do anything on Scan
+      [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should_not be_able_to(action, Scan) }
+      end
+    end
   end
 
   context "as a user" do
@@ -81,6 +88,14 @@ describe Ability do
       # only the owner is allowed to edit and destroy an album
       [ :edit, :update, :destroy ].each do |action|
         it { should be_able_to(action, FactoryGirl.create(:album, :user => @user)) }
+      end
+    end
+
+    context "on Scan" do
+      # the user can manage the scan if the album which owns the scan belongs to him
+      [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should be_able_to(action, stub_model(Scan, :album => stub_model(Album, :user => @user))) }
+        it { should_not be_able_to(action, stub_model(Scan)) }
       end
     end
   end
