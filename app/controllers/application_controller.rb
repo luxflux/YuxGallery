@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
     t_original(*args)
   end
 
+  unless Rails.env.test?
+    rescue_from CanCan::AccessDenied do |exception|
+      logger.error("Access denied: #{exception.action} on #{exception.subject}")
+      redirect_to root_url, :alert => exception.message
+    end
+  end
+
   private
     def layout
       request.xhr? ? false : "application"

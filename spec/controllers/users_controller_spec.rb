@@ -5,7 +5,7 @@ describe UsersController do
   include Devise::TestHelpers
 
   before do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryGirl.create(:user, :role => :user)
   end
   
   describe "GET index" do
@@ -36,6 +36,7 @@ describe UsersController do
 
   describe "GET edit" do
     before do
+      sign_in @user
       get :edit, :id => @user.id
     end
 
@@ -51,17 +52,9 @@ describe UsersController do
 
     context "with a HTML request" do
       it "updates the assigned user with the new params" do
-        put :update, :id => @user.id, :user => { :nickname => "OtherUser" }
-        @user.reload.nickname.should eq("OtherUser")
+        put :update, :id => @user.id, :user => { :nickname => "NewNickname" }
+        @user.reload.nickname.should eq("NewNickname")
         response.should redirect_to(@user)
-      end
-
-      it "disallowes access to other users than the user himself" do
-        user2 = FactoryGirl.create(:user)
-        old_name = user2.nickname
-        put :update, :id => user2.id, :user => { :nickname => "OtherUser" }
-        user2.reload.nickname.should eq(old_name)
-        response.should redirect_to(root_url)
       end
 
       it "renders the edit action if the params were not valid" do
@@ -79,14 +72,6 @@ describe UsersController do
         response.should be_success
       end
       
-      it "disallowes access to other users than the user himself" do
-        user2 = FactoryGirl.create(:user)
-        old_name = user2.nickname
-        put :update, :id => user2.id, :user => { :nickname => "OtherUser" }, :format => :xml
-        user2.reload.nickname.should eq(old_name)
-        response.response_code.should eq(405)
-      end
-
       it "renders the errors as xml if the params were not valid" do
         old_name = @user.nickname
         put :update, :id => @user.id, :user => { :nickname => "..test" }, :format => :xml
@@ -103,15 +88,6 @@ describe UsersController do
         response.body.should include("notice")
       end
       
-      it "disallowes access to other users than the user himself" do
-        user2 = FactoryGirl.create(:user)
-        old_name = user2.nickname
-        put :update, :id => user2.id, :user => { :nickname => "OtherUser" }, :format => :js
-        user2.reload.nickname.should eq(old_name)
-        response.should be_success
-        response.body.should include("alert")
-      end
-
       it "renews the form to display the errors" do
         old_name = @user.nickname
         put :update, :id => @user.id, :user => { :nickname => "..test" }, :format => :js
@@ -122,8 +98,11 @@ describe UsersController do
   end
 
   describe "DELETE destroy" do
-
-  # TODO: user should be logged in to do this
+    before do
+      sign_out @user
+      @user = FactoryGirl.create(:user, :role => :admin)
+      sign_in @user
+    end
 
     context "with a HTML request" do 
       before do
@@ -131,7 +110,7 @@ describe UsersController do
       end
       
       it "destroys the user" do
-        User.all.length.should eq(0)
+        lambda { User.find(@user.id) }.should raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "redirects to the users list" do
@@ -151,6 +130,9 @@ describe UsersController do
   end
 
   describe "GET folders" do
+    before do
+      sign_in @user
+    end
     [ :xml, :rightjs_ac ].each do |format|
       context "with a #{format.to_s.upcase} request" do
         before do
