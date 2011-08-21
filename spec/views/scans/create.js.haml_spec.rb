@@ -12,7 +12,6 @@ describe "scans/create.js.haml" do
   end
  
   subject do
-    puts rendered
     rendered
   end
 
