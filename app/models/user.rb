@@ -26,19 +26,23 @@
 #
 
 class User < ActiveRecord::Base
+  
+  ROLES = %w[admin user guest]
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :nickname, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :nickname, :password, :password_confirmation, :remember_me, :role
   attr_accessor :oldnickname
 
   validates_uniqueness_of :nickname
   validates_presence_of   :nickname
   validates_format_of     :nickname, :with => %r{[a-zA-Z0-9]{3,}}
   validates_format_of     :nickname, :without => %r{\.{2}}
+  validates_inclusion_of  :role, :in => ROLES.map { |r| r.to_sym }
 
   has_many :albums, :dependent => :destroy
   has_many :photos, :through => :albums
@@ -48,6 +52,7 @@ class User < ActiveRecord::Base
   after_create :create_sftp_folder
   after_save :move_sftp_folder, :if => :nickname_changed?
   after_destroy :remove_sftp_folder
+  after_initialize :set_defaults
 
   def random_photo
     self.photos.shuffle.first
@@ -90,6 +95,28 @@ class User < ActiveRecord::Base
     folder = YuxGallery::Application.config.sftp_upload_path
     Dir.mkdir(folder) unless File.exists?(folder)
     folder
+  end
+
+  def set_defaults
+    self.role ||= :user
+  end
+
+  def role
+    if self[:role] && !new_record?
+      self[:role].to_sym
+    else
+      :guest
+    end
+  end
+
+  def is?(r)
+    self.role == r.to_sym
+  end
+
+  ROLES.each do |r|
+    define_method("#{r}?") do 
+      self.is?(r)
+    end
   end
 
 end

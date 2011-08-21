@@ -17,6 +17,24 @@ describe User do
     u.should have(1).errors_on(:nickname)
   end
 
+  it "responds to role and returns the guest role" do
+    User.new.role.should eq(:guest)
+  end
+
+  [ :admin?, :user? ].each do |method|
+    it "responds to #{method} and returns false for a guest user" do
+      User.new.guest?.should eq(true)
+      User.new.send(method).should eq(false)
+    end
+  end
+
+  it "refuses to save an unknown role" do
+    u = FactoryGirl.create(:user)
+    u.role = "testrole"
+    u.save
+    u.should have(1).errors_on(:role)
+  end
+
   context "which has been saved" do
     before do
       @user = FactoryGirl.create(:user) 
