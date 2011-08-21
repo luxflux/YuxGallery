@@ -140,5 +140,13 @@ describe Ability do
         it { should be_able_to(action, FactoryGirl.create(:album, :user => @user)) }
       end
     end
+    
+    context "on Scan" do
+      # an admin can manage the scan if the album which owns the scan belongs to him
+      [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should be_able_to(action, stub_model(Scan, :album => stub_model(Album, :user => @user))) }
+        it { should_not be_able_to(action, stub_model(Scan)) }
+      end
+    end
   end
 end
