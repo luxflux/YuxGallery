@@ -34,6 +34,16 @@ class Ability
     unless user.guest?
       can :manage, Scan, :album => { :user_id => user.id }
     end
+    
+    ##################
+    # Access on Photo
+    ##################
+    can :read, Photo
+
+    unless user.guest?
+      can :manage, Photo, :album => { :user_id => user.id }
+    end
+
 
 
     # Define abilities for the passed in user here. For example:

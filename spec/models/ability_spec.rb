@@ -42,9 +42,21 @@ describe Ability do
       end
     end
 
-    context "on Photo" do
-      # a guest should not me able to do anything on Scan
+    context "on Scan" do
+      # a guest should not be able to do anything on Scan
       [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should_not be_able_to(action, Scan) }
+      end
+    end
+    
+    context "on Photo" do
+      # a guest should be able to read the photo
+      [ :show, :index ].each do |action|
+        it { should be_able_to(action, Photo) }
+      end
+
+      # a guest should not be able to manage a photo
+      [ :new, :create, :edit, :update, :destroy ].each do |action|
         it { should_not be_able_to(action, Scan) }
       end
     end
@@ -98,6 +110,16 @@ describe Ability do
         it { should_not be_able_to(action, stub_model(Scan)) }
       end
     end
+    
+    context "on Photo" do
+      # the user can manage the photo if the album which owns the photo belongs to him
+      [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should be_able_to(action, stub_model(Photo, :album => stub_model(Album, :user => @user))) }
+      end
+      [ :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should_not be_able_to(action, stub_model(Photo)) }
+      end
+    end
   end
 
   context "as an admin" do
@@ -146,6 +168,16 @@ describe Ability do
       [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
         it { should be_able_to(action, stub_model(Scan, :album => stub_model(Album, :user => @user))) }
         it { should_not be_able_to(action, stub_model(Scan)) }
+      end
+    end
+    
+    context "on Photo" do
+      # the user can manage the photo if the album which owns the photo belongs to him
+      [ :index, :show, :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should be_able_to(action, stub_model(Photo, :album => stub_model(Album, :user => @user))) }
+      end
+      [ :new, :create, :edit, :update, :destroy ].each do |action|
+        it { should_not be_able_to(action, stub_model(Photo)) }
       end
     end
   end
