@@ -9,8 +9,12 @@ class Ability
     # Access on User
     ###################
     can :index, User # everyone can list the users
-    can :update, User, :id => user.id # user can edit/update only himself
-    if user.is?(:admin)
+    
+    unless user.guest?
+      can [ :update, :folders ], User, :id => user.id # user can edit/update only himself
+    end
+    
+    if user.admin?
       can :destroy, User
     end
 
