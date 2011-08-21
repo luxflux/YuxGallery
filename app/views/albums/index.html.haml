@@ -5,5 +5,5 @@
   = t(".other_user.there_are_albums", :count => @albums.length, :user => @user.title)
 
 - if @albums.length > 0
-  = render("shared/photo_collection", :coll => @albums, :prefix => @user, :postfix => :photos)
+  = render("shared/photo_collection", :coll => @albums, :postfix => :photos)
 
