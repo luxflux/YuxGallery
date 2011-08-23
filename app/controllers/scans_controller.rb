@@ -1,37 +1,26 @@
 class ScansController < ApplicationController
 
-  before_filter :init_scan
+  load_and_authorize_resource :user
+  load_and_authorize_resource :album, :through => :user, :shallow => true
+  load_and_authorize_resource :scan, :through => :album, :shallow => true
 
   respond_to :html, :xml, :json
 
   # GET /scans
   # GET /scans.xml
   def index
-    @scans = Scan.all
-
     respond_with(@scans)
   end
 
   # GET /scans/1
   # GET /scans/1.xml
   def show
-    @scan = Scan.find(params[:id])
-    #reply = {
-    #  "state" => "uploading",
-    #  "received" => "50",
-    #  "size" => "100",
-    #  "speed" => "0",
-    #  "started_at" => @scan.created_at.to_i,
-    #  "uuid" => @scan.id
-    #}
-
     respond_with(@scan.status)
   end
 
   # GET /scans/new
   # GET /scans/new.xml
   def new
-    @scan = @album.scans.new
     respond_with(@scan)
   end
 
@@ -44,18 +33,16 @@ class ScansController < ApplicationController
   # POST /scans
   # POST /scans.xml
   def create
-    @scan = @album.scans.new(params[:scan])
-
     respond_to do |format|
       if @scan.save
-        format.html { redirect_to([ @user, @album, @scan ], :notice => 'Scan was successfully created.') }
-        format.xml  { render :xml => @scan, :status => :created, :location => [ @user, @album, @scan ] }
-        format.js   { render :js => "Lightbox.load('#{user_album_scan_path(@user, @album, @scan)}');" }
+        format.html { redirect_to(@scan, :notice => 'Scan was successfully created.') }
+        format.xml  { render :xml => @scan, :status => :created, :location => @scan }
+        format.js   { render :js => "Lightbox.load('#{scan_path(@scan)}');" }
       else
         @scan.directory = @scan.directory.gsub(%r{#{Regexp.escape(current_user.sftp_folder)}}, '')
         format.html { render :action => "new" }
         format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
-        format.js   { render :partial => "layouts/update_lightbox_with_errors_for", :local => { :model => @scan } }
+        format.js   { render :partial => "shared/update_lightbox_with_errors_for", :local => { :model => @scan } }
       end
     end
   end
@@ -79,17 +66,11 @@ class ScansController < ApplicationController
   # DELETE /scans/1
   # DELETE /scans/1.xml
   def destroy
-    @scan = Scan.find(params[:id])
     @scan.destroy
 
     respond_to do |format|
-      format.any(:html, :js) { redirect_to([@user, @album, :scans]) }
+      format.any(:html, :js) { redirect_to([@album, :scans]) }
       format.xml             { head :ok }
     end
   end
-
-  private
-    def init_scan
-      @scan = Scan.find(params[:id]) if params[:id]
-    end
 end

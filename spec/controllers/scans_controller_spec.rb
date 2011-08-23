@@ -5,11 +5,12 @@ describe ScansController do
   include Devise::TestHelpers
 
   before do
-    @user = FactoryGirl.create(:user)
-    @album = FactoryGirl.create(:album, :user_id => @user.id)
-    @scan = FactoryGirl.build(:scan, :album_id => @album.id)
+    @user = FactoryGirl.create(:user, :role => :user)
+    @album = FactoryGirl.create(:album, :user => @user)
+    @scan = FactoryGirl.build(:scan, :album => @album)
     FileUtils.mkdir(@scan.fullpath)
     @scan.save
+    sign_in @user
   end
 
   after do
@@ -121,13 +122,12 @@ describe ScansController do
         it { should be_persisted }
 
         it "redirects to the scan" do
-          response.should redirect_to(user_album_scan_path(@user, @album, assigns(:scan)))
+          response.should redirect_to(scan_path(assigns(:scan)))
         end
       end
 
       context "and invalid params" do
         before do
-          sign_in @user
           post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }
         end
 
@@ -160,7 +160,6 @@ describe ScansController do
 
       context "and invalid params" do
         before do
-          sign_in @user
           post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }, :format => :xml
         end
 
@@ -179,13 +178,12 @@ describe ScansController do
         end
 
         it "uses lightbox to load the path to new scan" do
-          response.body.should eq("Lightbox.load('#{user_album_scan_path(@user, @album, assigns(:scan))}');")
+          response.body.should eq("Lightbox.load('#{scan_path(assigns(:scan))}');")
         end
       end
 
       context "and invalid params" do
         before do
-          sign_in @user
           post :create, :user_id => @user.id, :album_id => @album.id, :scan => { :directory => "../test" }, :format => :js
         end
 
@@ -208,7 +206,7 @@ describe ScansController do
       end
 
       it "redirects to the overview of the scans" do
-        response.should redirect_to(user_album_scans_path(@user, @album))
+        response.should redirect_to(album_scans_path(@album))
       end
     end
 
