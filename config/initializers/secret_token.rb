@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-YuxGallery::Application.config.secret_token = '00a5041beb637b915fc9f1de1621c9c38adb4833a17f53e83a4b49323dfd67f73fce6bb7843e18044a2a6fda3280ad4de73dceac028fd662434a979af44c4efc'
+YuxGallery::Application.config.secret_token = '27feea35727f401a5c6f944f987028ffa1fcdb30a9ecb851d1bba6eb7d54a1eb53bbb51942657eb64a65df1005b59633ea0ed73cc37098a8e1da6a60845f7b51'
