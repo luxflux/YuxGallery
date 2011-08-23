@@ -5,12 +5,13 @@ describe PhotosController do
   include Devise::TestHelpers
 
   before do
-    @user = FactoryGirl.create(:user)
-    @album = FactoryGirl.create(:album, :user_id => @user.id)
-    @photo = FactoryGirl.create(:photo, :album_id => @album.id)
+    @user = FactoryGirl.create(:user, :role => :user)
+    @album = FactoryGirl.create(:album, :user => @user)
+    @photo = FactoryGirl.create(:photo, :album => @album)
     # we have to stub out the PhotoUploader, otherwhise to_xml fails, but only in the tests
     Photo.any_instance.stubs(:mount_uploader).returns(true)
     Photo.any_instance.stubs(:set_from_exif).returns(true)
+    sign_in @user
   end
 
   describe "GET index" do
@@ -119,9 +120,6 @@ describe PhotosController do
   end
 
   describe "POST create" do
-    before do
-      sign_in @user
-    end
     context "with a HTML request" do
       context "with valid params" do
         before do
@@ -135,7 +133,7 @@ describe PhotosController do
         it { should be_persisted }
 
         it "redirects to the photo" do
-          response.should redirect_to(user_album_photo_path(@user, @album, assigns(:photo)))
+          response.should redirect_to(photo_path(assigns(:photo)))
         end
       end
 
@@ -184,9 +182,6 @@ describe PhotosController do
   end
 
   describe "PUT update" do
-    before do
-      sign_in @user
-    end
     context "with a HTML request" do
       context "and valid params" do
         before do
@@ -274,11 +269,11 @@ describe PhotosController do
       end
 
       it "removes the specified photo" do
-        Photo.find_by_id(@photo.id).should eq(nil)
+        lambda { Photo.find(@photo.id) }.should raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "redirects to the photos collection" do
-        response.should redirect_to(user_album_photos_path(@user, @album))
+        response.should redirect_to(album_photos_path(@album))
       end
     end
 

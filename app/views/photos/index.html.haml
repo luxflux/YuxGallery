@@ -1,14 +1,14 @@
-- content_for(:title, "#{@user.title} / #{@album.title}")
+- content_for(:title, "#{@album.user.title} / #{@album.title}")
 
 %p= t(".this_album_has_photos", :count => @photos.length)
 
 - if @album.user == current_user
   - content_for :actions do
     %ul
-      %li= link_to_lightbox(t(".current_user.scan_link", :count => @photos.length), new_user_album_scan_path(@album.user, @album))
-      %li= link_to_lightbox(t(".current_user.add_photo"), new_user_album_photo_path(@album.user, @album))
+      %li= link_to_lightbox(t(".current_user.scan_link", :count => @photos.length), new_album_scan_path(@album))
+      %li= link_to_lightbox(t(".current_user.add_photo"), new_album_photo_path(@album))
 
 - if @photos.length > 0
   = tabs :type => :carousel do
     - @photos.each do |photo|
-      = tab(image_tag(photo.photo.carousel.url), :url => user_album_photo_path(photo.album.user, photo.album, photo))
+      = tab(image_tag(photo.photo.carousel.url), :url => photo_path(photo))
