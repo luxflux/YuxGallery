@@ -4,7 +4,7 @@ YuxGallery::Application.routes.draw do
 
   resources :users, :except => [ :show, :new, :create ], :shallow => true do
     member do
-      get "/folders(.:format)" => "users#folders", :as => "folders"
+      get :folders
     end
     resources :albums, :except => [ :show ], :shallow => true do
       resources :scans
