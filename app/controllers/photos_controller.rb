@@ -1,5 +1,7 @@
 class PhotosController < ApplicationController
 
+  # we want to ensure that the action has been authorized
+  check_authorization
   load_and_authorize_resource :user
   load_and_authorize_resource :album, :through => :user, :shallow => true
   load_and_authorize_resource :photo, :through => :album, :shallow => true

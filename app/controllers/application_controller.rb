@@ -5,9 +5,6 @@ class ApplicationController < ActionController::Base
 
   layout :layout
 
-  # we want to ensure that the action has been authorized
-  check_authorization
-
   # i18n localization
   alias_method :t_original, :t
   def t(*args)
