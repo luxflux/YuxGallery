@@ -42,7 +42,7 @@ class ScansController < ApplicationController
         @scan.directory = @scan.directory.gsub(%r{#{Regexp.escape(current_user.sftp_folder)}}, '')
         format.html { render :action => "new" }
         format.xml  { render :xml => @scan.errors, :status => :unprocessable_entity }
-        format.js   { render :partial => "shared/update_lightbox_with_errors_for", :local => { :model => @scan } }
+        format.js   { render :partial => "shared/update_lightbox_with_errors_for", :locals => { :model => @scan } }
       end
     end
   end
