@@ -57,7 +57,7 @@ describe Ability do
 
       # a guest should not be able to manage a photo
       [ :new, :create, :edit, :update, :destroy ].each do |action|
-        it { should_not be_able_to(action, Scan) }
+        it { should_not be_able_to(action, Photo) }
       end
     end
   end
