@@ -11,4 +11,4 @@
 - if @photos.length > 0
   = tabs :type => :carousel do
     - @photos.each do |photo|
-      = tab(image_tag(photo.photo.carousel.url), :url => photo_path(photo))
+      - tab(image_tag(photo.photo.carousel.url), :url => photo_path(photo))
