@@ -1,5 +1,7 @@
 class AlbumsController < ApplicationController
 
+  # we want to ensure that the action has been authorized
+  check_authorization
   load_and_authorize_resource :album
 
   respond_to :html, :xml
@@ -43,12 +45,12 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.save
-        format.any(:html,:js) { redirect_to(user_album_photos_path(@album.user, @album), :notice => 'Album was successfully created.') }
+        format.any(:html,:js) { redirect_to(album_photos_path(@album), :notice => 'Album was successfully created.') }
         format.xml  { render :xml => @album, :status => :created }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
-        format.js   { render :partial => "layouts/update_lightbox_with_errors_for", :local => { :model => @album } }
+        format.js   { render :partial => "shared/update_lightbox_with_errors_for", :locals => { :model => @album } }
       end
     end
   end
@@ -60,7 +62,7 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.update_attributes(params[:album])
-        format.html { redirect_to([@album.user,@album], :notice => 'Album was successfully updated.') }
+        format.html { redirect_to(@album, :notice => 'Album was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

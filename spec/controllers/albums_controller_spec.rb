@@ -5,8 +5,9 @@ describe AlbumsController do
   include Devise::TestHelpers
 
   before do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryGirl.create(:user, :role => :user)
     @album = FactoryGirl.create(:album, :user_id => @user.id)
+    sign_in @user
   end
 
   describe "GET index" do
@@ -82,38 +83,28 @@ describe AlbumsController do
   describe "POST create" do
     context "with a HTML request" do
       it "creates @album" do
-        sign_in @user
         post :create, :user_id => @user.id, :album => { :name => "Testalbum" }
         assigns(:album).should be_instance_of(Album)
-        response.should redirect_to(user_album_photos_path(@user,assigns(:album)))
+        response.should redirect_to(album_photos_path(assigns(:album)))
       end
 
       it "shows the errors from the model" do
-        sign_in @user
         post :create, :user_id => @user.id
         assigns(:album).should be_instance_of(Album)
         assigns(:album).should have(1).errors_on(:name)
         response.should render_template("new")
       end
-
-#      it "requires a logged in user" do
-#        post :create, :user_id => @user.id, :album => { :name => "Testalbum" }
-#        response.should redirect_to(root_path)
-#        response.should render_template("unauthorized")
-#      end
     end
 
     context "with a JS request" do
       it "creates @album" do
-        sign_in @user
         post :create, :user_id => @user.id, :album => { :name => "Testalbum" }, :format => :js
         assigns(:album).should be_instance_of(Album)
-        response.should redirect_to(user_album_photos_path(@user,assigns(:album)))
+        response.should redirect_to(album_photos_path(assigns(:album)))
         response.content_type.should eq("text/javascript")
       end
       
       it "shows the errors from the model" do
-        sign_in @user
         post :create, :user_id => @user.id, :format => :js
         assigns(:album).should be_instance_of(Album)
         assigns(:album).should have(1).errors_on(:name)
@@ -128,7 +119,6 @@ describe AlbumsController do
       end
 
       it "creates @album" do
-        sign_in @user
         post :create, :user_id => @user.id, :album => { :name => "Testalbum" }, :format => :xml
         assigns(:album).should be_instance_of(Album)
         response.should be_success
@@ -136,7 +126,6 @@ describe AlbumsController do
       end
       
       it "shows the errors from the model" do
-        sign_in @user
         post :create, :user_id => @user.id, :format => :js, :format => :xml
         assigns(:album).should be_instance_of(Album)
         assigns(:album).should have(1).errors_on(:name)
@@ -146,22 +135,12 @@ describe AlbumsController do
   end
   
   describe "PUT update" do
-# TODO: add user auth
     context "with a HTML request" do
       it "updates the album with the new params" do
         put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }
         @album.reload.name.should eq("My Test Album Changed Name")
-        response.should redirect_to([@user,@album])
+        response.should redirect_to(@album)
       end
-
-#      it "allowes only the owner to edit the album" do
-#        old_name = @album.name
-#        user2 = FactoryGirl.create(:user)
-#        sign_in user2
-#        put :update, :id => @album.id, :user_id => @user.id, :album => { :name => "My Test Album Changed Name" }
-#        @album.reload.name.should eq(old_name)
-#        response.should redirect_to(root_url)
-#      end
 
       it "renders the edit action if the params were not valid" do
         put :update, :id => @album.id, :user_id => @user.id, :album => { :date_end => Time.now, :date_start => Time.now + 1.day }
