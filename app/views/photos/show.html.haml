@@ -2,10 +2,10 @@
   .description
     %p
       %b Name:
-      = yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :name, :update_elements => [ @photo.name ])
+      = yux_in_place_edit_text(photo_path(@photo), :model => @photo, :attribute => :name, :update_elements => [ @photo.name ])
     %p
       %b Description:
-      = yux_in_place_edit_text(user_album_photo_path(@photo.user, @photo.album, @photo), :model => @photo, :attribute => :description)
+      = yux_in_place_edit_text(photo_path(@photo), :model => @photo, :attribute => :description)
     %p
       %b Date:
       = @photo.shot_at
