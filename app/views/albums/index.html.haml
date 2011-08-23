@@ -2,7 +2,7 @@
   = t(".current_user.there_are_albums", :count => @albums.length)
   = link_to(t(".current_user.link", :count => @albums.length), new_user_album_path(@user))
 - else
-  = t(".other_user.there_are_albums", :count => @albums.length, :user => @albums.first.title)
+  = t(".other_user.there_are_albums", :count => @albums.length, :user => @albums.first.user.title)
 
 - if @albums.length > 0
   = render("shared/photo_collection", :coll => @albums, :postfix => :photos)
