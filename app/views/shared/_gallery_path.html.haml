@@ -1,0 +1,24 @@
+%ul.gallery_path
+  %li= link_to(t(".path.start"), root_path)
+  - case
+  - when @user && !@user.new_record?
+    %li= link_to(yux_gallery_path_get_title(@user), [ @user, :albums])
+  - when @album
+    %li= link_to(yux_gallery_path_get_title(@album.user), [ @album.user, :albums])
+  - when @photo
+    %li= link_to(yux_gallery_path_get_title(@photo.album.user), [ @photo.album, :photos])
+  - when @scan
+    %li= link_to(yux_gallery_path_get_title(@scan.album.user), [ @scan.album, :scans])
+
+  - case
+  - when @album && !@album.new_record?
+    %li= link_to(yux_gallery_path_get_title(@album), [ @album, :photos])
+  - when @photo
+    %li= link_to(yux_gallery_path_get_title(@photo.album), [ @photo.album, :photos])
+  - when @scan
+    %li= link_to(yux_gallery_path_get_title(@scan.album), [ @scan.album, :scans])
+
+  - if @photo && !@photo.new_record?
+    %li= link_to(yux_gallery_path_get_title(@photo), @photo)
+  - if @scan && !@scan.new_record?
+    %li= link_to(yux_gallery_path_get_title(@scan), @scan)

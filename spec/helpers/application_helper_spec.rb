@@ -55,65 +55,6 @@ describe ApplicationHelper do
     end
   end
 
-  describe "yux_gallery_path" do
-    let :t do
-      "Start"
-    end
-    context "with a selected user" do
-      before do
-        @album = nil
-        @photo = nil
-      end
-      subject do
-        yux_gallery_path
-      end
-      it { should match(/Start/) }
-      it { should match(/Testobject/) }
-      it { should_not match(/Test Album/) }
-      it { should_not match(/Photo/) }
-    end
-    context "with a selected user and an album" do
-      before do
-        @photo = nil
-      end
-      subject do
-        yux_gallery_path
-      end
-      it { should match(/Start/) }
-      it { should match(/Testobject/) }
-      it { should match(/Test Album/) }
-      it { should_not match(/Photo/) }
-    end
-    context "with a selected user, album and a photo" do
-      subject do
-        yux_gallery_path
-      end
-      it { should match(/Start/) }
-      it { should match(/Testobject/) }
-      it { should match(/Test Album/) }
-      it { should match(/Photo/) }
-    end
-    context "with a selected user, album and a scan" do
-      before do
-        @photo = nil
-        @scan = FactoryGirl.build(:scan, :album_id => @album.id)
-        FileUtils.mkdir(@scan.fullpath)
-        @scan.save
-      end
-      after do
-        FileUtils.rm_rf(@scan.fullpath)
-      end
-      subject do
-        yux_gallery_path
-      end
-      it { should match(/Start/) }
-      it { should match(/Testobject/) }
-      it { should match(/Test Album/) }
-      it { should_not match(/Photo/) }
-      it { should match(/Scan #1/) }
-    end
-  end
-
   describe "link_to_lightbox" do
     it "returns a link to the lightbox" do
       link_to_lightbox("test", users_path).should eq("<a href=\"/users\" rel=\"lightbox\" title=\"test\">test</a>")

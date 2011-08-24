@@ -19,7 +19,7 @@
       = yield(:actions)
     #content
       #path
-        = yux_gallery_path
+        = render "shared/gallery_path"
       %h2= yield(:title2)
       #flash
         %span.notice#flash_notice
