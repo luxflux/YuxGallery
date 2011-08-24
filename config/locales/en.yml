@@ -91,3 +91,17 @@ en:
     registrations:
       new:
         title: "Sign up"
+      edit:
+        title: "Edit %{name}"
+    passwords:
+      new:
+        title: "Forgot your password?"
+    confirmations:
+      new:
+        title: "Didn't receive confirmation instructions?"
+    unlocks:
+      new:
+        title: "Didn't receive unlock instructions?"
+    omniauth:
+      new:
+        title: "Sign in with %{provider}"
