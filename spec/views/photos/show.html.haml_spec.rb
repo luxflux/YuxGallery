@@ -15,6 +15,7 @@ describe "photos/show.html.haml" do
   context "with the user who owns the photo" do
     before do
       view.expects(:current_user).at_least_once.returns(@user)
+      view.expects(:can?).with(:destroy, @photo).returns(true)
       render
     end
  
@@ -24,19 +25,21 @@ describe "photos/show.html.haml" do
 
     it { should have_selector("div.photo") }
     it { should have_selector("div.photo div.description") }
-    it { should have_selector("div.photo div.description p", :count => 3) }
+    it { should have_selector("div.photo div.description p", :count => 4) }
     it { should have_selector("div.photo div.description p span + a", :count => 2) }
     it { should have_selector("div.photo div.description p", :text => /#{@photo.shot_at}/) }
     it { should have_selector("div.photo div.image") }
     it { should have_selector("div.photo div.image a img", :count => 2) }
     it { should have_selector("div.photo div.image script", :text => /set_lightbox_image_which_fits/) }
     it { should have_selector("div.photo + div.clear") }
+    it { should have_selector("a#destroy_#{@photo.id}") }
   end
 
   context "with another user" do
     before do
       other_user = stub_model(User)
       view.expects(:current_user).at_least_once.returns(other_user)
+      view.expects(:can?).with(:destroy, @photo).returns(false)
       render
     end
 
@@ -44,5 +47,6 @@ describe "photos/show.html.haml" do
       rendered
     end
     it { should_not have_selector("div.photo div.description p span + a") }
+    it { should_not have_selector("a#destroy_#{@photo.id}") }
   end
 end

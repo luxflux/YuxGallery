@@ -73,6 +73,9 @@ en:
         zero: "This album does not have any photos, yet."
         one: "This album has just one photo."
         other: "This album has %{count} photos."
+    destroy:
+      title: "Delete"
+      confirm: "Do you really want to delete %{name}?"
   scans:
     title: "Scan #%{id}"
     new:

@@ -144,4 +144,8 @@ module ApplicationHelper
     image_tag("icons/#{icon}.png", options)
   end
 
+  def destroy_link(object, i18n_path)
+    link_to(t("#{i18n_path}.title"), object, :method => :delete, :confirm => t("#{i18n_path}.confirm", :name => object.title), :id => "destroy_#{object.id}") if can?(:destroy, object)
+  end
+
 end

@@ -9,6 +9,7 @@
     %p
       %b Date:
       = @photo.shot_at
+    %p= destroy_link(@photo, "photos.destroy")
   .image
     = yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox400.url, :rel => :lightbox, :title => @photo.name, :id => "#{@photo.id}_image_version_400")
     = yux_link_to_with_photo(@photo.photo.thumb.url, @photo.photo.lightbox800.url, :rel => :lightbox, :title => @photo.name, :id => "#{@photo.id}_image_version_800")
