@@ -83,3 +83,11 @@ en:
       one: "One error prohibited this %{model} from being saved:"
       other: "%{count} errors prohibited this %{model} from being saved:"
 
+  devise:
+    sessions:
+      new:
+        title: "Login"
+      destroy: "Logout"
+    registrations:
+      new:
+        title: "Sign up"

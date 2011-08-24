@@ -12,7 +12,7 @@
       - if user_signed_in?
         %li= link_to_lightbox(t("users.edit.title"), edit_user_path(current_user))
         %li= link_to(t("albums.new.title"), new_user_album_path(current_user))
-        %li= link_to(t("devise.sessions.destroy"), destroy_user_session_path)
+        %li= link_to(t("devise.sessions.destroy"), destroy_user_session_path, :method => :delete)
       - else
         %li= link_to_lightbox(t("devise.sessions.new.title"), new_user_session_path)
         %li= link_to(t("devise.registrations.new.title"), new_user_registration_path)
@@ -29,7 +29,7 @@
       :javascript
         $('flash_#{fl}').hide();
         if("#{flash[fl]}" != "") {
-          raf_update_flash('notice', '#{flash[fl]}');
+          raf_update_flash('#{fl}', '#{flash[fl]}');
         }
 
 

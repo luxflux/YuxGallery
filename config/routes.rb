@@ -1,6 +1,6 @@
 YuxGallery::Application.routes.draw do
 
-  devise_for :users, :controllers => { :sessions => "users/sessions" }
+  devise_for :users
 
   resources :users, :except => [ :show, :new, :create ], :shallow => true do
     member do
