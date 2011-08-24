@@ -5,15 +5,15 @@
     .left
       %p
         = f.label :name
-        %br
+        %br/
         = f.text_field :name
       %p
         = label_with_tooltip(f, :date_start)
-        %br
+        %br/
         = f.calendar_field :date_start
       %p
         = label_with_tooltip(f, :date_end)
-        %br
+        %br/
         = f.calendar_field :date_end
 
       .actions
@@ -21,5 +21,5 @@
     .right
       %p
         = f.label :description
-        %br
+        %br/
         = f.text_area :description

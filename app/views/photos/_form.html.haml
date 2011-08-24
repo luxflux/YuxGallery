@@ -2,19 +2,19 @@
   = display_error_messages(@photo)
   .field
     = f.label :name
-    %br
+    %br/
     = f.text_field :name
   .field
     = f.label :description
-    %br
+    %br/
     = f.text_field :description
   .field
     = f.label :shot_at
-    %br
+    %br/
     = f.calendar_field :shot_at
   .field
     = f.label :photo
-    %br
+    %br/
     = image_tag(@photo.photo.thumb.url) if @photo.photo?
     = f.file_field :photo
     = f.hidden_field :photo_cache
