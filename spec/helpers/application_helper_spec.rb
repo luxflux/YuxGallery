@@ -15,7 +15,7 @@ describe ApplicationHelper do
 
   describe "yux_in_place_edit_text" do
     before do
-      @url = user_album_photo_path(@photo.user, @photo.album, @photo)
+      @url = photo_path(@photo)
     end
 
     context "with the user the photo belongs to" do
@@ -106,7 +106,7 @@ describe ApplicationHelper do
 
     context "without a given tooltip" do
       it "renders a label for a field without the given tooltip" do
-        form_for([@user, @album]) do |f|
+        form_for(@album) do |f|
           result = label_with_tooltip(f, :date_start)
           result.should eq("<label data-tooltip=\"true\" for=\"album_date_start\" title=\"Date when the first photo of the album has been taken, if left empty will be filled in when photos are added\">Date start</label><img alt=\"Help\" data-tooltip=\"true\" src=\"/images/icons/help.png\" title=\"Date when the first photo of the album has been taken, if left empty will be filled in when photos are added\" />")
         end

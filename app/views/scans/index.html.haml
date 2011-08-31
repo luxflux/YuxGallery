@@ -7,9 +7,9 @@
     %th
   = @scans.each do |scan|
     %tr
-      %td= link_to t(".show"), user_album_scan_path(@user, @album, scan)
-      %td= link_to t(".edit"), edit_user_album_scan_path(@user, @album, scan)
-      %td= link_to t(".destroy.text"), user_album_scan_path(@user, @album, scan), :confirm => t(".destroy.confirm"), :method => :delete
+      %td= link_to t(".show"), scan_path(scan)
+      %td= link_to t(".edit"), edit_scan_path(scan)
+      %td= link_to t(".destroy.text"), scan_path(scan), :confirm => t(".destroy.confirm"), :method => :delete
 
-= link_to t(".new"), new_user_album_scan_path(@user, @album)
+= link_to t(".new"), new_album_scan_path(@album)
 

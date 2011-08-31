@@ -102,8 +102,8 @@ module ApplicationHelper
   end
 
   def update_lightbox(title = nil)
-    yield
-    content = "Lightbox.current.dialog.resize();"
+    content = yield
+    content += "Lightbox.current.dialog.resize();"
     if title
       content += "Lightbox.current.dialog.setTitle('#{title}')"
     end

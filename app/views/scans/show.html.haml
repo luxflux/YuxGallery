@@ -1,6 +1,6 @@
 = form_for(:scan_progress, :url => "", :html => { :id => "scan_progress" }) {}
 :javascript
   uploader = new Uploader('scan_progress', {
-    url: '#{user_album_scan_path(@user, @album, @scan, :json)}'
+    url: '#{scan_path(@scan, :json)}'
   });
   uploader.start();
