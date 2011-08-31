@@ -18,7 +18,8 @@ class Photo < ActiveRecord::Base
 
   validates_presence_of :name
 
-  has_friendly_id :name, :use_slug => true
+  extend FriendlyId
+  friendly_id :name, :use => :slugged
 
   belongs_to :album
 

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
+gem 'rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,7 +8,7 @@ gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 gem 'sqlite3'
 gem 'right-rails'
 gem 'devise'
-gem 'friendly_id', "~> 3.3.0.rc2"
+gem 'friendly_id', "~> 4.0.0.beta8"
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'delayed_job'

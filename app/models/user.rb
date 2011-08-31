@@ -47,7 +47,9 @@ class User < ActiveRecord::Base
   has_many :albums, :dependent => :destroy
   has_many :photos, :through => :albums
 
-  has_friendly_id :nickname, :use_slug => true
+  # friendly_id
+  extend FriendlyId
+  friendly_id :nickname, :use => :slugged
 
   after_create :create_sftp_folder
   after_save :move_sftp_folder, :if => :nickname_changed?
