@@ -17,6 +17,7 @@ class ScansController < ApplicationController
   # GET /scans/1
   # GET /scans/1.xml
   def show
+    @scan.update_status
     respond_with(@scan.status)
   end
 

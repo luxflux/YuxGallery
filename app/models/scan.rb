@@ -34,6 +34,8 @@ class Scan < ActiveRecord::Base
   before_create :ensure_directory_is_a_directory
   after_create :run!
 
+  serialize :jobs
+
   def state
     if self[:state].nil? && new_record?
       set_state_on_create
@@ -54,9 +56,55 @@ class Scan < ActiveRecord::Base
   end
 
   def run!
-    self.state = :queued
-    self.job = Delayed::Job.enqueue CreateFotosFromDirectoryJob.new(self)
+    @items = []
+    if File.exists?(self.fullpath)
+      scan_dir(self.fullpath)
+    end
+    self.state = :running
+    self.item_count = @items.length
+    self.counter = 0
     self.save!
+
+    self.jobs = []
+    @items.each do |item|
+      self.jobs << Delayed::Job.enqueue(CreatePhotoJob.new(item, self)).id
+    end
+    self.save
+  end
+
+  def scan_dir(dir)
+    Dir.entries(dir).each do |entry|
+      next if [ "..", "." ].include?(entry)
+
+      path = File.join(dir, entry)
+
+      if File.directory?(path)
+        scan_dir(path)
+      else
+        @items << path
+      end
+    end
+  end
+
+  def update_status
+    jobs = []
+    self.jobs.each do |job_id|
+      jobs << Delayed::Job.find(job_id) rescue nil
+    end
+    
+    # update status
+    if jobs.length == 0 # all have been done
+      self.state = :success
+      self.runtime = (Time.now - self.created_at).to_i
+      self.save
+    else
+      jobs.each do |j|
+        next if j.last_error.nil?
+        self.state = :error
+        self.runtime = (Time.now - self.created_at).to_i
+        self.save
+      end
+    end
   end
 
   def status
@@ -71,22 +119,18 @@ class Scan < ActiveRecord::Base
     # uuid => scan id
 
     case self.state
-      when :queued, :not_run
-        state = "starting"
-        speed = 0
-        start = 0
       when :running
         state = "uploading"
-        speed = (Time.now - self.job.run_at) / self.counter
-        start = self.job.run_at
+        speed = (Time.now - self.created_at) / self.counter
+        start = self.created_at
       when :success
         state = "done"
         speed = self.counter.zero? ? 0 : self.runtime / self.counter
         start = self.updated_at.to_i - self.runtime
       when :error, :fail
         state = "error"
-        speed = (Time.now - self.job.failed_at) / self.counter
-        start = self.job.run_at
+        speed = (Time.now - self.updated_at) / self.counter
+        start = self.created_at
     end
 
     {

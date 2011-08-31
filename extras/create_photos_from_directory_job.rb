@@ -1,4 +1,4 @@
-class CreateFotosFromDirectoryJob < Struct.new(:scan)
+class CreatePhotosFromDirectoryJob < Struct.new(:scan)
 
   def perform
     set_state :running
@@ -12,9 +12,10 @@ class CreateFotosFromDirectoryJob < Struct.new(:scan)
     set_total_items(@items.length)
 
     @items.each do |entry|
-      photo = scan.album.photos.new(:photo => File.open(entry))
-      photo.set_from_exif!
-      photo.save!
+      Delayed::Job.enqueue CreatePhotoJob.new(entry, scan.album)
+#      photo = scan.album.photos.new(:photo => File.open(entry))
+#      photo.set_from_exif!
+#      photo.save!
 #      File.delete(entry) if File.writable?(entry)
       add_to_progress
     end
