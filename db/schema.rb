@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110831180647) do
+ActiveRecord::Schema.define(:version => 20110831180917) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -48,7 +48,10 @@ ActiveRecord::Schema.define(:version => 20110831180647) do
     t.datetime "updated_at"
     t.string   "photo"
     t.datetime "shot_at"
+    t.string   "slug"
   end
+
+  add_index "photos", ["slug"], :name => "index_photos_on_slug", :unique => true
 
   create_table "scans", :force => true do |t|
     t.integer  "album_id"
