@@ -27,7 +27,7 @@ en:
           one: "create another one"
           other: "create another one"
         there_are_albums:
-          zero: "You don't have an album, %{link}!"
+          zero: "You don't have an album!"
           one: "You have one album."
           other: "You have %{count} albums."
       other_user:
