@@ -9,6 +9,6 @@
       %li= link_to_lightbox(t(".current_user.add_photo"), new_album_photo_path(@album))
 
 - if @photos.length > 0
-  = tabs :type => :carousel do
+  = tabs :type => :carousel, :"data-tabs" => "{cache=true}" do
     - @photos.each do |photo|
       - tab(image_tag(photo.photo.carousel.url), :url => photo_path(photo))
