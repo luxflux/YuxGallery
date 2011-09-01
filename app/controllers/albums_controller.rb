@@ -2,6 +2,7 @@ class AlbumsController < ApplicationController
 
   # we want to ensure that the action has been authorized
   check_authorization
+  load_and_authorize_resource :user
   load_and_authorize_resource :album
 
   respond_to :html, :xml
