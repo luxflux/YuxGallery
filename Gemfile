@@ -5,7 +5,6 @@ gem 'rails'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 gem 'right-rails'
 gem 'devise'
 gem 'friendly_id', "~> 4.0.0.beta8"
@@ -15,6 +14,10 @@ gem 'delayed_job'
 gem 'exifr'
 gem 'cancan'
 gem 'haml-rails'
+
+group :production do
+  gem 'pg'
+end
 
 # Use unicorn as the web server
 #gem 'unicorn'
@@ -41,6 +44,7 @@ gem 'haml-rails'
 
 group :development do
   gem 'annotate'
+  gem 'sqlite3'
 end
 group :development, :test do
   gem 'rspec-rails'
@@ -51,4 +55,5 @@ group :development, :test do
   gem 'capybara'
   gem 'mocha'
   gem 'rspec-rails-mocha'
+  gem 'sqlite3'
 end
