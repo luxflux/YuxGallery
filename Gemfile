@@ -14,6 +14,8 @@ gem 'delayed_job'
 gem 'exifr'
 gem 'cancan'
 gem 'haml-rails'
+gem 'uglifier'
+gem 'therubyracer'
 
 group :production do
   gem 'pg'
