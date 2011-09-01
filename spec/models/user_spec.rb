@@ -35,6 +35,10 @@ describe User do
     u.should have(1).errors_on(:role)
   end
 
+  it "responds to role for a created user with user" do
+    FactoryGirl.create(:user).role.should eq(:user)
+  end
+
   context "which has been saved" do
     before do
       @user = FactoryGirl.create(:user) 
