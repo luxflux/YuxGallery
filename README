@@ -1,12 +1,17 @@
+Dependencies
+-------------
+apt-get install g++ libv8-dev imagemagick
+
+
 ----open----
-- WRITE TESTS
-- make login error message nice
-- make error_explanation nice
-- ensure that actions are save from editing by other users
 - search-path optimizing, make the file entries in the list
   not selectable
 
 ----done----
+- ensure that actions are save from editing by other users
+- make login error message nice
+- make error_explanation nice
+- WRITE TESTS
 - remove the fullpath from Scan
 - create app-config with an initializer to set the prefix for the
   sftp-paths
