@@ -1,12 +1,25 @@
-class CreatePhotoJob < Struct.new(:file, :scan)
+class CreatePhotoJob < Struct.new(:file, :photo_job)
+
+  def enqueue(job)
+    photo_job.reload.state = :queued
+    photo_job.save
+  end
 
   def perform
-    photo = scan.album.photos.new(:photo => File.open(file))
+    photo = photo_job.scan.album.photos.new(:photo => File.open(file))
     photo.set_from_exif!
     photo.save!
 #    File.delete(file) if File.writable?(file)
-    scan.reload.counter += 1
-    scan.save!
+  end
+
+  def success(job)
+    photo_job.reload.state = :success
+    photo_job.save
+  end
+
+  def error(job, exception)
+    photo_job.reload.state = :failed
+    photo_job.save
   end
 
 end

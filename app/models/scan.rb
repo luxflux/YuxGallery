@@ -18,7 +18,8 @@
 class Scan < ActiveRecord::Base
 
   belongs_to :album
-  belongs_to :job, :class_name => "Delayed::Backend::ActiveRecord::Job", :foreign_key => :job_id
+
+  has_many :photo_jobs
 
   validates_presence_of :directory
 
@@ -30,22 +31,9 @@ class Scan < ActiveRecord::Base
     self.errors.add :directory, "#{self.fullpath} is not a directory" unless File.directory?(self.fullpath)
   end
 
-  before_create :set_state_on_create
   before_create :ensure_directory_is_a_directory
   after_create :run!
 
-  serialize :jobs
-
-  def state
-    if self[:state].nil? && new_record?
-      set_state_on_create
-    end
-    self[:state].to_sym
-  end
-
-  def set_state_on_create
-    self.state = :not_run
-  end
 
   def ensure_directory_is_a_directory
     self.directory = File.dirname(self.fullpath) unless File.directory?(self.fullpath)
@@ -56,23 +44,20 @@ class Scan < ActiveRecord::Base
   end
 
   def run!
-    @items = []
     if File.exists?(self.fullpath)
-      scan_dir(self.fullpath)
-    end
-    self.state = :running
-    self.item_count = @items.length
-    self.counter = 0
-    self.save!
+      items = scan_dir(self.fullpath)
 
-    self.jobs = []
-    @items.each do |item|
-      self.jobs << Delayed::Job.enqueue(CreatePhotoJob.new(item, self)).id
+      items.each do |item|
+        new_job = self.photo_jobs.create
+        dj = Delayed::Job.enqueue(CreatePhotoJob.new(item, new_job))
+        new_job.job = dj
+        new_job.save
+      end
     end
-    self.save
   end
 
   def scan_dir(dir)
+    items = []
     Dir.entries(dir).each do |entry|
       next if [ "..", "." ].include?(entry)
 
@@ -81,30 +66,10 @@ class Scan < ActiveRecord::Base
       if File.directory?(path)
         scan_dir(path)
       else
-        @items << path
+        items << path
       end
     end
-  end
-
-  def update_status
-    jobs = []
-    self.jobs.each do |job_id|
-      jobs << Delayed::Job.find(job_id) rescue nil
-    end
-    
-    # update status
-    if jobs.length == 0 # all have been done
-      self.state = :success
-      self.runtime = (Time.now - self.created_at).to_i
-      self.save
-    else
-      jobs.each do |j|
-        next if j.last_error.nil?
-        self.state = :error
-        self.runtime = (Time.now - self.created_at).to_i
-        self.save
-      end
-    end
+    items
   end
 
   def status
@@ -119,28 +84,43 @@ class Scan < ActiveRecord::Base
     # uuid => scan id
 
     case self.state
-      when :running
-        state = "uploading"
-        speed = (Time.now - self.created_at) / self.counter
-        start = self.created_at
-      when :success
-        state = "done"
-        speed = self.counter.zero? ? 0 : self.runtime / self.counter
-        start = self.updated_at.to_i - self.runtime
-      when :error, :fail
-        state = "error"
-        speed = (Time.now - self.updated_at) / self.counter
-        start = self.created_at
+    when :queued
+      state = "starting"
+      speed = 0
+      start = 0
+    when :running
+      state = "uploading"
+      speed = (Time.now - self.created_at) / self.photo_jobs.finished.length
+      start = self.created_at
+    when :finished
+      state = "done"
+      speed = self.photo_jobs.finished.length.zero? ? 0 : self.runtime / self.photo_jobs.finished.length
+      start = self.updated_at.to_i - self.runtime
     end
 
     {
       :state      => state,
-      :received   => self.counter,
-      :size       => self.item_count,
+      :received   => self.photo_jobs.finished.length,
+      :size       => self.photo_jobs.length,
       :speed      => speed,
       :started_at => start,
       :uuid       => self.id
     }
+  end
+
+  def state
+    case
+    when self.photo_jobs.queued.length == self.photo_jobs.length
+      :queued
+    when self.photo_jobs.finished.length == self.photo_jobs.length
+      unless self.runtime
+        self.runtime = (Time.now - self.created_at).to_i
+        self.save
+      end
+      :finished
+    when self.photo_jobs.finished.length > 0
+      :running
+    end
   end
 
 end

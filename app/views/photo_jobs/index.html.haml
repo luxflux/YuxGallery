@@ -1,0 +1,17 @@
+%h1 Listing photo_jobs
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @photo_jobs.each do |photo_job|
+    %tr
+      %td= link_to 'Show', photo_job
+      %td= link_to 'Edit', edit_photo_job_path(photo_job)
+      %td= link_to 'Destroy', photo_job, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Photo job', new_photo_job_path

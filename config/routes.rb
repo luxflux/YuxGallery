@@ -7,7 +7,10 @@ YuxGallery::Application.routes.draw do
       get :folders
     end
     resources :albums, :except => [ :show ], :shallow => true do
-      resources :scans
+      resources :scans, :shallow => true do
+# we don't have an interface to manage the scan jobs, yet
+#        resources :photo_jobs
+      end
       resources :photos
     end
   end

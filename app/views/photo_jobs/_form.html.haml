@@ -1,0 +1,10 @@
+= form_for @photo_job do |f|
+  -if @photo_job.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@photo_job.errors.count, "error")} prohibited this photo_job from being saved:"
+      %ul
+        - @photo_job.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'
