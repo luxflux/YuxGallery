@@ -45,7 +45,6 @@ class User < ActiveRecord::Base
   validates_inclusion_of  :role, :in => ROLES.map { |r| r.to_sym }
 
   has_many :albums, :dependent => :destroy
-  has_many :photos, :through => :albums
 
   # friendly_id
   extend FriendlyId
@@ -57,7 +56,7 @@ class User < ActiveRecord::Base
   after_initialize :set_defaults
 
   def random_photo
-    self.photos.shuffle.first
+    self.albums.shuffle.first.random_photo
   end
 
   def title
