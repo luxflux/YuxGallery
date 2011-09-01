@@ -10,7 +10,7 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.xml
   def index
-    @albums = Album.all
+    @albums = Album.find_all_by_user_id(@user.id)
     respond_with(@albums)
   end
 
@@ -28,20 +28,17 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   # GET /albums/new.xml
   def new
-    @album = Album.new
     respond_with(@album)
   end
 
   # GET /albums/1/edit
   def edit
-    @album = Album.find(params[:id])
     respond_with(@album)
   end
 
   # POST /albums
   # POST /albums.xml
   def create
-    @album = Album.new(params[:album])
     @album.user = current_user
 
     respond_to do |format|
@@ -59,8 +56,6 @@ class AlbumsController < ApplicationController
   # PUT /albums/1
   # PUT /albums/1.xml
   def update
-    @album = Album.find(params[:id])
-
     respond_to do |format|
       if @album.update_attributes(params[:album])
         format.html { redirect_to(@album, :notice => 'Album was successfully updated.') }
@@ -75,7 +70,6 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1
   # DELETE /albums/1.xml
   def destroy
-    @album = Album.find(params[:id])
     @album.destroy
 
     respond_to do |format|
