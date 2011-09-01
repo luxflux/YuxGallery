@@ -66,9 +66,12 @@ module ApplicationHelper
     link_to(image_tag(image_url) + content_tag(:span, title, :id => title), destination_url, :class => :with_photo, :rel => rel, :title => title, :id => id)
   end
 
-  def photo_url(item)
-    if item.respond_to?(:photo)
+  def get_photo_url(item)
+    case
+    when item.respond_to?(:photo)
       item.photo.thumb.url
+    when item.respond_to?(:random_photo)
+      item.random_photo.photo.thumb.url
     else
       yux_default_photo
     end

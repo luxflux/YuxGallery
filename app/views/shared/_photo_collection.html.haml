@@ -1,5 +1,5 @@
 %ul.photo_collection
   - coll.each do |item|
     - url = [ (prefix rescue nil), item, (postfix rescue nil) ]
-    %li= yux_link_to_with_photo( photo_url(item), url, :title => item.title)
+    %li= yux_link_to_with_photo(get_photo_url(item), url, :title => item.title)
   .clear
