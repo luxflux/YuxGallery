@@ -70,7 +70,7 @@ module ApplicationHelper
     case
     when item.respond_to?(:photo)
       item.photo.thumb.url
-    when item.respond_to?(:random_photo)
+    when item.respond_to?(:random_photo) && item.random_photo
       item.random_photo.photo.thumb.url
     else
       yux_default_photo

@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   after_initialize :set_defaults
 
   def random_photo
-    self.albums.shuffle.first.random_photo
+    self.albums.shuffle.first.random_photo if self.albums.length > 0
   end
 
   def title
