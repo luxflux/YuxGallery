@@ -3,3 +3,6 @@ YuxGallery::Application.config.sftp_upload_path = File.join(Rails.root, "tmp", "
 
 # actionmailer via sendmail
 ActionMailer::Base.delivery_method = :sendmail
+
+MiniMagick.processor = :gm
+

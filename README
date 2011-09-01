@@ -1,6 +1,6 @@
 Dependencies
 -------------
-apt-get install g++ libv8-dev imagemagick
+apt-get install g++ libv8-dev graphicsmagick
 
 
 ----open----
