@@ -99,7 +99,9 @@ class User < ActiveRecord::Base
   end
 
   def set_defaults
-    self.role ||= :user
+    if self[:role].nil?
+      self.role = :user
+    end
   end
 
   def role
