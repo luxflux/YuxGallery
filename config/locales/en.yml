@@ -14,8 +14,8 @@ en:
     album:
       date_start: "Date when the first photo of the album has been taken, if left empty will be filled in when photos are added"
       date_end: "Date when the last photo of the album has been taken, if left empty will be filled in when photos are added"
-  layouts:
-    application:
+  shared:
+    gallery_path:
       path:
         start: "YuxGallery"
 
