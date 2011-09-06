@@ -71,7 +71,7 @@ module ApplicationHelper
     when item.respond_to?(:photo)
       item.photo.thumb.url
     when item.respond_to?(:random_photo) && item.random_photo
-      item.random_photo.photo.thumb.url
+      item.random_photo.photo.size1.size2.normal.thumb.url
     else
       yux_default_photo
     end

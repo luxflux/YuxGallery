@@ -15,24 +15,24 @@ class PhotoUploader < CarrierWave::Uploader::Base
   end
 
   # Create different versions of your uploaded files:
-  version :thumb do
-    process :resize_to_fill => [125, 125]
-  end
-
-  version :carousel do
-    process :resize_to_fit => [100, 67]
-  end
-
-  version :normal do
-    process :resize_to_fit => [200, 200]
-  end
-
-  version :lightbox400 do
-    process :resize_to_fit => [600, 400]
-  end
-
-  version :lightbox800 do
+  version :size1 do
     process :resize_to_fit => [ 1200, 800 ]
+
+    version :size2 do
+      process :resize_to_fit => [600, 400]
+
+      version :normal do
+        process :resize_to_fit => [200, 200]
+
+        version :thumb do
+          process :resize_to_fill => [125, 125]
+        end
+
+        version :carousel do
+          process :resize_to_fit => [100, 67]
+        end
+      end
+    end
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
