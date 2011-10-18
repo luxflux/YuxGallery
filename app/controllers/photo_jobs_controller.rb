@@ -76,7 +76,7 @@ class PhotoJobsController < ApplicationController
     @photo_job.destroy
 
     respond_to do |format|
-      format.html { redirect_to photo_jobs_url }
+      format.html { redirect_to scan_photo_jobs_path(@photo_job.scan) }
       format.json { head :ok }
     end
   end

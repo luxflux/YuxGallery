@@ -26,11 +26,20 @@ describe PhotoJobsController do
   def valid_attributes
     {}
   end
+  
+  include Devise::TestHelpers
+
+  before do
+    @user = stub_model(User)
+    @album = stub_model(Album, :user => @user)
+    @scan = stub_model(Scan, :album => @album)
+    sign_in @user
+  end
 
   describe "GET index" do
     it "assigns all photo_jobs as @photo_jobs" do
       photo_job = PhotoJob.create! valid_attributes
-      get :index
+      get :index, :scan_id => @scan
       assigns(:photo_jobs).should eq([photo_job])
     end
   end
@@ -45,7 +54,7 @@ describe PhotoJobsController do
 
   describe "GET new" do
     it "assigns a new photo_job as @photo_job" do
-      get :new
+      get :new, :scan_id => @scan
       assigns(:photo_job).should be_a_new(PhotoJob)
     end
   end
@@ -62,18 +71,18 @@ describe PhotoJobsController do
     describe "with valid params" do
       it "creates a new PhotoJob" do
         expect {
-          post :create, :photo_job => valid_attributes
+          post :create, :photo_job => valid_attributes, :scan_id => @scan
         }.to change(PhotoJob, :count).by(1)
       end
 
       it "assigns a newly created photo_job as @photo_job" do
-        post :create, :photo_job => valid_attributes
+        post :create, :photo_job => valid_attributes, :scan_id => @scan
         assigns(:photo_job).should be_a(PhotoJob)
         assigns(:photo_job).should be_persisted
       end
 
       it "redirects to the created photo_job" do
-        post :create, :photo_job => valid_attributes
+        post :create, :photo_job => valid_attributes, :scan_id => @scan
         response.should redirect_to(PhotoJob.last)
       end
     end
@@ -81,15 +90,15 @@ describe PhotoJobsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved photo_job as @photo_job" do
         # Trigger the behavior that occurs when invalid params are submitted
-        PhotoJob.any_instance.stub(:save).and_return(false)
-        post :create, :photo_job => {}
+        PhotoJob.any_instance.stubs(:save).returns(false)
+        post :create, :photo_job => {}, :scan_id => @scan
         assigns(:photo_job).should be_a_new(PhotoJob)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        PhotoJob.any_instance.stub(:save).and_return(false)
-        post :create, :photo_job => {}
+        PhotoJob.any_instance.stubs(:save).returns(false)
+        post :create, :photo_job => {}, :scan_id => @scan
         response.should render_template("new")
       end
     end
@@ -103,7 +112,7 @@ describe PhotoJobsController do
         # specifies that the PhotoJob created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        PhotoJob.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        PhotoJob.any_instance.expects(:update_attributes).with({'these' => 'params'})
         put :update, :id => photo_job.id, :photo_job => {'these' => 'params'}
       end
 
@@ -124,7 +133,7 @@ describe PhotoJobsController do
       it "assigns the photo_job as @photo_job" do
         photo_job = PhotoJob.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        PhotoJob.any_instance.stub(:save).and_return(false)
+        PhotoJob.any_instance.stubs(:save).returns(false)
         put :update, :id => photo_job.id.to_s, :photo_job => {}
         assigns(:photo_job).should eq(photo_job)
       end
@@ -132,7 +141,7 @@ describe PhotoJobsController do
       it "re-renders the 'edit' template" do
         photo_job = PhotoJob.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        PhotoJob.any_instance.stub(:save).and_return(false)
+        PhotoJob.any_instance.stubs(:save).returns(false)
         put :update, :id => photo_job.id.to_s, :photo_job => {}
         response.should render_template("edit")
       end
@@ -150,7 +159,7 @@ describe PhotoJobsController do
     it "redirects to the photo_jobs list" do
       photo_job = PhotoJob.create! valid_attributes
       delete :destroy, :id => photo_job.id.to_s
-      response.should redirect_to(photo_jobs_url)
+      response.should redirect_to(scan_photo_jobs_path(@scan))
     end
   end
 
