@@ -8,8 +8,8 @@ describe "photos/show.html.haml" do
     assign(:user, @user)
     assign(:album, @album)
     assign(:photo, @photo)
-    @photo.photo.lightbox400.expects(:url).returns("file.jpg")
-    @photo.photo.lightbox800.expects(:url).returns("file.jpg")
+    @photo.photo.size1.size2.expects(:url).returns("file.jpg")
+    @photo.photo.size1.expects(:url).returns("file.jpg")
   end
   
   context "with the user who owns the photo" do
